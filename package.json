@@ -1,0 +1,80 @@
+{
+  "name": "tegg-cnode",
+  "version": "1.0.0",
+  "description": "Backend Powered By Tegg For CNodejs.org",
+  "private": true,
+  "egg": {
+    "typescript": true,
+    "declarations": true
+  },
+  "scripts": {
+    "autod": "autod",
+    "start": "egg-scripts start --title=tegg-cnode --env prod",
+    "startd": "egg-scripts start --daemon --title=tegg-cnode --env prod",
+    "stop": "egg-scripts stop --title=tegg-cnode",
+    "dev": "egg-bin dev",
+    "debug": "egg-bin debug",
+    "build": "APP_ROOT=$PWD/app/view umi build && npm run tsc",
+    "cov": "egg-bin cov",
+    "clean": "ets clean",
+    "ci": "npm run lint && npm run cov",
+    "tsc": "ets && tsc -p tsconfig.server.json",
+    "test": "npm run lint && npm run test-local",
+    "test-local": "egg-bin test",
+    "lint": "eslint . --fix --ext .ts"
+  },
+  "gitHooks": {
+    "pre-commit": ""
+  },
+  "dependencies": {
+    "@eggjs/tegg": "^0.1.19",
+    "@eggjs/tegg-config": "^0.1.19",
+    "@eggjs/tegg-controller-plugin": "^0.1.19",
+    "@eggjs/tegg-plugin": "^0.1.19",
+    "egg": "^2.33.1",
+    "egg-jwt": "^3.1.7",
+    "egg-mongoose": "^3.3.1",
+    "egg-redis": "^2.4.0",
+    "egg-scripts": "^2.15.2",
+    "egg-view-nunjucks": "^2.3.0"
+  },
+  "devDependencies": {
+    "@eggjs/tsconfig": "^1.0.0",
+    "@types/mocha": "^2.2.40",
+    "@types/node": "^14.11.1",
+    "@types/supertest": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
+    "autod": "^3.1.2",
+    "autod-egg": "^1.1.0",
+    "dotenv": "^10.0.0",
+    "egg-bin": "^4.16.4",
+    "egg-ci": "^1.15.0",
+    "egg-mock": "^3.16.0",
+    "eslint": "^8",
+    "eslint-config-egg": "^10",
+    "lint-staged": "^10.1.2",
+    "prettier": "^2.0.4",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.4"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "ci": {
+    "type": "github",
+    "os": {
+      "github": "linux"
+    },
+    "version": "16"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "eslintIgnore": [
+    "coverage"
+  ],
+  "author": "Suyi <thonatos.yang@gmail.com>",
+  "license": "MIT"
+}
