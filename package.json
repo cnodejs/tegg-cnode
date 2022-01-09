@@ -14,11 +14,10 @@
     "stop": "egg-scripts stop --title=tegg-cnode",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
-    "build": "APP_ROOT=$PWD/app/view umi build && npm run tsc",
     "cov": "egg-bin cov",
     "clean": "ets clean",
     "ci": "npm run lint && npm run cov",
-    "tsc": "ets && tsc -p tsconfig.server.json",
+    "tsc": "ets && tsc -p tsconfig.json",
     "test": "npm run lint && npm run test-local",
     "test-local": "egg-bin test",
     "lint": "eslint . --fix --ext .ts"
