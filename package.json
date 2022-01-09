@@ -1,8 +1,8 @@
 {
   "name": "tegg-cnode",
   "version": "1.0.0",
-  "description": "Backend Powered By Tegg For CNodejs.org",
-  "private": true,
+  "description": "CNodejs.org Powered By Tegg",
+  "private": false,
   "egg": {
     "typescript": true,
     "declarations": true
@@ -36,6 +36,7 @@
     "egg-mongoose": "^3.3.1",
     "egg-redis": "^2.4.0",
     "egg-scripts": "^2.15.2",
+    "egg-typebox-validate": "^2.3.1",
     "egg-view-nunjucks": "^2.3.0"
   },
   "devDependencies": {

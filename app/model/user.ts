@@ -1,108 +1,141 @@
-// import { Application } from 'egg';
-// import type { Model } from 'mongoose';
+import { Application } from 'egg';
+import { Schema } from 'mongoose';
+import type { Model } from 'mongoose';
+import { md5 } from '../common/UserUtil';
 
-// const utility = require('utility');
+export interface User {
+  name: string;
+  pass: string;
+  email: string;
+  loginname: string;
 
-// export interface User {
-//   name: string;
-//   pass: string;
-//   email: string;
-//   loginname: string;
+  url: string;
+  profile_image_url: string;
+  location: string;
+  signature: string;
+  profile: string;
+  weibo: string;
+  avatar: string;
 
-//   update_at: Date;
-// };
+  githubId: string;
+  githubUsername: string;
+  githubAccessToken: string;
 
-// export interface UserModel extends Model<User> {
+  is_block: boolean;
 
-// }
+  score: number;
+  topic_count: number;
+  reply_count: number;
+  follower_count: number;
+  following_count: number;
+  collect_tag_count: number;
+  collect_topic_count: number;
 
-// export default (app: Application) => {
-//   const { mongoose } = app;
-//   const { Schema } = mongoose;
+  create_at: Date;
+  update_at: Date;
 
-//   const UserSchema = new Schema<User, UserModel>({
-//     name: { type: String },
-//     pass: { type: String },
-//     email: { type: String },
-//     loginname: { type: String },
+  is_star: boolean;
+  level: string;
+  active: boolean;
 
-//     url: { type: String },
-//     profile_image_url: { type: String },
-//     location: { type: String },
-//     signature: { type: String },
-//     profile: { type: String },
-//     weibo: { type: String },
-//     avatar: { type: String },
+  receive_reply_mail: boolean;
+  receive_at_mail: boolean;
+  from_wp: boolean;
 
-//     githubId: { type: String },
-//     githubUsername: { type: String },
-//     githubAccessToken: { type: String },
+  retrieve_time: number;
+  retrieve_key: string;
 
-//     is_block: { type: Boolean, default: false },
+  accessToken: string;
+}
 
-//     score: { type: Number, default: 0 },
-//     topic_count: { type: Number, default: 0 },
-//     reply_count: { type: Number, default: 0 },
-//     follower_count: { type: Number, default: 0 },
-//     following_count: { type: Number, default: 0 },
-//     collect_tag_count: { type: Number, default: 0 },
-//     collect_topic_count: { type: Number, default: 0 },
+export interface UserModel extends Model<User, any> {
+}
 
-//     create_at: { type: Date, default: Date.now },
-//     update_at: { type: Date, default: Date.now },
-//     is_star: { type: Boolean },
-//     level: { type: String },
-//     active: { type: Boolean, default: false },
+export default (app: Application) => {
 
-//     receive_reply_mail: { type: Boolean, default: false },
-//     receive_at_mail: { type: Boolean, default: false },
-//     from_wp: { type: Boolean },
+  const UserSchema = new Schema<User, UserModel>({
+    name: { type: String },
+    pass: { type: String },
+    email: { type: String },
+    loginname: { type: String },
 
-//     retrieve_time: { type: Number },
-//     retrieve_key: { type: String },
+    url: { type: String },
+    profile_image_url: { type: String },
+    location: { type: String },
+    signature: { type: String },
+    profile: { type: String },
+    weibo: { type: String },
+    avatar: { type: String },
 
-//     accessToken: { type: String },
-//   });
+    githubId: { type: String },
+    githubUsername: { type: String },
+    githubAccessToken: { type: String },
 
-//   UserSchema.index({ loginname: 1 }, { unique: true });
-//   UserSchema.index({ email: 1 }, { unique: true });
-//   UserSchema.index({ score: -1 });
-//   UserSchema.index({ githubId: 1 });
-//   UserSchema.index({ accessToken: 1 });
+    is_block: { type: Boolean, default: false },
 
-//   UserSchema.virtual('avatar_url').get(function () {
-//     let url =
-//       this.avatar ||
-//       'https://gravatar.com/avatar/' +
-//       this.helper.md5(this.email.toLowerCase()) +
-//       '?size=48';
+    score: { type: Number, default: 0 },
+    topic_count: { type: Number, default: 0 },
+    reply_count: { type: Number, default: 0 },
+    follower_count: { type: Number, default: 0 },
+    following_count: { type: Number, default: 0 },
+    collect_tag_count: { type: Number, default: 0 },
+    collect_topic_count: { type: Number, default: 0 },
 
-//     // www.gravatar.com 被墙
-//     url = url.replace('www.gravatar.com', 'gravatar.com');
+    create_at: { type: Date, default: Date.now },
+    update_at: { type: Date, default: Date.now },
+    is_star: { type: Boolean },
+    level: { type: String },
+    active: { type: Boolean, default: false },
 
-//     // 让协议自适应 protocol，使用 `//` 开头
-//     if (url.indexOf('http:') === 0) {
-//       url = url.slice(5);
-//     }
+    receive_reply_mail: { type: Boolean, default: false },
+    receive_at_mail: { type: Boolean, default: false },
+    from_wp: { type: Boolean },
 
-//     // 如果是 github 的头像，则限制大小
-//     if (url.indexOf('githubusercontent') !== -1) {
-//       url += '&s=120';
-//     }
+    retrieve_time: { type: Number },
+    retrieve_key: { type: String },
 
-//     return url;
-//   });
+    accessToken: { type: String },
+  });
 
-//   UserSchema.virtual('isAdvanced').get(function () {
-//     // 积分高于 700 则认为是高级用户
-//     return this.score > 700 || this.is_star;
-//   });
+  UserSchema.index({ loginname: 1 }, { unique: true });
+  UserSchema.index({ email: 1 }, { unique: true });
+  UserSchema.index({ score: -1 });
+  UserSchema.index({ githubId: 1 });
+  UserSchema.index({ accessToken: 1 });
 
-//   UserSchema.pre('save', function (next) {
-//     const now = new Date();
-//     this.update_at = now;
-//     next();
-//   });
+  UserSchema.virtual('avatar_url').get(function(this: User) {
+    let url =
+      this.avatar ||
+      'https://gravatar.com/avatar/' +
+      md5(this.email.toLowerCase()) +
+      '?size=48';
 
-//   return mongoose.model('User', UserSchema);
-// };
+    // www.gravatar.com 被墙
+    url = url.replace('www.gravatar.com', 'gravatar.com');
+
+    // 让协议自适应 protocol，使用 `//` 开头
+    if (url.indexOf('http:') === 0) {
+      url = url.slice(5);
+    }
+
+    // 如果是 github 的头像，则限制大小
+    if (url.indexOf('githubusercontent') !== -1) {
+      url += '&s=120';
+    }
+
+    return url;
+  });
+
+  UserSchema.virtual('isAdvanced').get(function(this: User) {
+    // 积分高于 700 则认为是高级用户
+    return this.score > 700 || this.is_star;
+  });
+
+  UserSchema.pre('save', function(next) {
+    const now = new Date();
+    this.update_at = now;
+    next();
+  });
+
+  return app.mongoose.model<User, UserModel>('User', UserSchema);
+};

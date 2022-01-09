@@ -1,6 +1,6 @@
 ## tegg-cnode
 
-Backend Powered By Tegg For CNodejs.org
+> CNodejs.org Powered By Tegg.
 
 ## QuickStart
 
@@ -29,5 +29,5 @@ $ npm start
 
 ### Requirement
 
-- Node.js 8.x
-- Typescript 2.8+
+- Node.js 12.x
+- Typescript 4.x+

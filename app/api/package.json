@@ -1,6 +1,6 @@
 {
-  "name": "cnode-api",
+  "name": "api",
   "eggModule": {
-    "name": "cnodeApi"
+    "name": "api"
   }
 }

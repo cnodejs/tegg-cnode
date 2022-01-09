@@ -14,13 +14,13 @@ import 'egg-schedule';
 import 'egg-static';
 import 'egg-jsonp';
 import 'egg-view';
-import 'egg-view-nunjucks';
 import '@eggjs/tegg-plugin';
 import '@eggjs/tegg-controller-plugin';
 import '@eggjs/tegg-config';
 import 'egg-mongoose';
 import 'egg-redis';
 import 'egg-jwt';
+import 'egg-typebox-validate';
 import { EggPluginItem } from 'egg';
 declare module 'egg' {
   interface EggPlugin {
@@ -36,12 +36,12 @@ declare module 'egg' {
     static?: EggPluginItem;
     jsonp?: EggPluginItem;
     view?: EggPluginItem;
-    nunjucks?: EggPluginItem;
     tegg?: EggPluginItem;
     teggController?: EggPluginItem;
     teggConfig?: EggPluginItem;
     mongoose?: EggPluginItem;
     redis?: EggPluginItem;
     jwt?: EggPluginItem;
+    typeboxValidate?: EggPluginItem;
   }
 }

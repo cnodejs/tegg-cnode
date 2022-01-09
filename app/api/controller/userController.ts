@@ -1,38 +1,26 @@
 import {
-  // Context,
-  // EggContext,
-
+  Context,
+  EggContext,
   HTTPController,
   HTTPMethod,
   HTTPMethodEnum,
-  // HTTPBody,
-  // HTTPParam,
+  HTTPParam,
 } from '@eggjs/tegg';
-
+import { AbstractController } from './AbstractController';
 
 @HTTPController({
-  path: '/api/user',
+  path: '/api/v2/user',
 })
-export class UserController {
-
-  // @HTTPMethod({
-  //   method: HTTPMethodEnum.POST,
-  //   path: '/',
-  // })
-  // async addMsg(@HTTPBody() msg: string) { }
-
-  // @HTTPMethod({
-  //   method: HTTPMethodEnum.GET,
-  //   path: '/:id',
-  // })
-  // async getMsg(@HTTPParam() id: string) { }
+export class UserController extends AbstractController {
 
   @HTTPMethod({
     method: HTTPMethodEnum.GET,
-    path: '/',
+    path: '/:loginname',
   })
-  async hello() {
-  // async home(@Context() ctx: EggContext) {
-    return 'mmm';
+  async show(@Context() ctx: EggContext, @HTTPParam() loginname: string) {
+    const user = await this.userService.show(loginname);
+    ctx.body = {
+      user,
+    };
   }
 }

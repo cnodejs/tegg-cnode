@@ -1,10 +1,10 @@
 import { EggPlugin } from 'egg';
 
 const plugin: EggPlugin = {
-  nunjucks: {
-    enable: true,
-    package: 'egg-view-nunjucks',
-  },
+  // nunjucks: {
+  //   enable: true,
+  //   package: 'egg-view-nunjucks',
+  // },
 
   tegg: {
     package: '@eggjs/tegg-plugin',
@@ -34,6 +34,11 @@ const plugin: EggPlugin = {
   jwt: {
     enable: true,
     package: 'egg-jwt',
+  },
+
+  typeboxValidate: {
+    enable: true,
+    package: 'egg-typebox-validate',
   },
 };
 
