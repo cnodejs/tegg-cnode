@@ -25,12 +25,11 @@ export abstract class AbstractRepository<T> {
     return this.model[modelName];
   }
 
-  async getById(id: string) {
+  async getById(id: string, projection?: any) {
     const query = {
       _id: id,
     };
 
-    const info = await this.__model.findOne(query as any);
-    return info;
+    return await this.__model.findOne(query as any, projection).exec();
   }
 }

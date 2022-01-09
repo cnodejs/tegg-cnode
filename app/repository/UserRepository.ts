@@ -10,11 +10,8 @@ export class UserRepository extends AbstractRepository<User> {
     super('User');
   }
 
-  async getByLoginname(loginname: string) {
-    const user = await this.__model.findOne({
-      loginname,
-    });
-
+  async getByLoginname(loginname: string, projection?: any): Promise<Partial<User>> {
+    const user = await this.__model.findOne({ loginname }, projection).exec();
     return user;
   }
 }

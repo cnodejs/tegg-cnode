@@ -24,3 +24,5 @@ config/**/*.map
 .umi*
 app/public
 config/manifest.json
+
+!init.d/mongo/init.js

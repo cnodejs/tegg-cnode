@@ -14,7 +14,19 @@ export class UserService extends AbstractService {
   @Inject()
   private readonly userRepository: UserRepository;
 
-  async show(loginname: string) {
-    return this.userRepository.getByLoginname(loginname);
+  async show(name: string) {
+    const user = await this.userRepository.getByLoginname(name, [
+      '-pass',
+      '-email',
+      '-githubId',
+      '-githubAccessToken',
+      '-accessToken',
+    ]);
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
   }
 }
