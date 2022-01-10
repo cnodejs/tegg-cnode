@@ -16,9 +16,14 @@ export default (appInfo: EggAppInfo) => {
   };
 
   config.jwt = {
-    // enable: true,
+    enable: true,
     secret: process.env.JWT_SECRET || 'JWT_SECRET',
-    // match: '/api/user',
+    match: ctx => {
+      if (ctx.path.startsWith('/api/v2') && (ctx.method === 'PUT' || ctx.method === 'POST')) {
+        return true;
+      }
+      return false;
+    },
   };
 
   config.mongoose = {

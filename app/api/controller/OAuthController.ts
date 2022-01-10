@@ -47,7 +47,7 @@ export class OAuthController extends AbstractController {
       ctx.throw(400, 'invalid token');
     }
 
-    // TODO: 
+    // TODO:
     // save or update user, sign jwt token with user
 
     const token = await this.jwtService.sign(userInfo);
