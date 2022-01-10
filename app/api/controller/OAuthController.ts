@@ -35,6 +35,7 @@ export class OAuthController extends AbstractController {
   })
   async github(@Context() ctx: EggContext, @HTTPQuery() code: string, @HTTPQuery() callbackUrl: string) {
     const authInfo = await this.githubService.exchange(code);
+    this.logger.debug('authInfo', authInfo);
 
     if (!authInfo) {
       ctx.throw(400, 'invalid code');
@@ -42,15 +43,49 @@ export class OAuthController extends AbstractController {
 
     const { access_token } = authInfo;
     const userInfo = await this.githubService.getUser(access_token);
+    this.logger.debug('userInfo', userInfo);
 
     if (!userInfo) {
       ctx.throw(400, 'invalid token');
     }
 
-    // TODO:
-    // save or update user, sign jwt token with user
+    // Sync User: create or update user with github userinfo.
 
-    const token = await this.jwtService.sign(userInfo);
+    const {
+      name,
+      email,
+      avatar_url,
+      id: githubId,
+      login: username,
+    } = userInfo;
+
+    let user;
+
+    user = await this.userService.getByGithubId(githubId);
+    this.logger.debug('user.existed', user);
+
+    if (!user) {
+      user = await this.userService.create({
+        githubId,
+        active: true,
+      });
+      this.logger.debug('user.created', user);
+    }
+
+    await this.userService.update(user._id, {
+      name,
+      email,
+      loginname: username,
+      avatar: avatar_url,
+      githubUsername: username,
+      githubAccessToken: access_token,
+    });
+
+    user = await this.userService.getByGithubId(githubId);
+    this.logger.debug('user.updated', user);
+
+    const token = await this.jwtService.sign(user);
+    this.logger.debug('token', token);
 
     if (callbackUrl) {
       ctx.redirect(`${callbackUrl}?token=${token}`);
@@ -59,8 +94,9 @@ export class OAuthController extends AbstractController {
 
     ctx.body = {
       data: {
-        type: 'Github',
-        data: userInfo,
+        type: 'github',
+        user,
+        token,
       },
     };
   }

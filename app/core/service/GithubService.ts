@@ -54,7 +54,6 @@ export class GithubService extends AbstractService {
 
     return data;
   }
-
 }
 
 interface AccessToken {
@@ -64,8 +63,9 @@ interface AccessToken {
 }
 
 interface GithubUserInfo {
-  id: number;
+  id: string;
   name: string;
+  login: string;
   email: string;
   avatar_url: string;
   location: string;

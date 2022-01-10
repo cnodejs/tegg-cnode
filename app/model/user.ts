@@ -48,12 +48,12 @@ export interface User {
   accessToken: string;
 }
 
-export interface UserModel extends Model<User, any> {
+export interface UserModel extends Model<User, any, any> {
 }
 
 export default (app: Application) => {
 
-  const UserSchema = new Schema<User, UserModel>({
+  const UserSchema = new Schema<User, UserModel, any>({
     name: { type: String },
     pass: { type: String },
     email: { type: String },
@@ -131,11 +131,13 @@ export default (app: Application) => {
     return this.score > 700 || this.is_star;
   });
 
-  UserSchema.pre('save', function(next) {
+  UserSchema.pre('save', function(next): void {
     const now = new Date();
     this.update_at = now;
     next();
   });
+
+  UserSchema.set('toObject', { getters: true });
 
   return app.mongoose.model<User, UserModel>('User', UserSchema);
 };

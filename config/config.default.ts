@@ -39,14 +39,14 @@ export default (appInfo: EggAppInfo) => {
       host: process.env.EGG_REDIS_HOST || '127.0.0.1',
       port: parseInt(process.env.EGG_REDIS_PORT || '6379'),
       db: parseInt(process.env.EGG_REDIS_DB || '0'),
-      password: process.env.EGG_REDIS_PASSWORD || 'cnode',
+      password: process.env.EGG_REDIS_PASSWORD || '',
     },
   };
 
   config.github = {
-    client_id: process.env.GITHUB_CLIENT_ID || 'clientId',
-    client_secret: process.env.GITHUB_CLIENT_SECRET || 'clientId',
-    redirect_uri: process.env.GITHUB_REDIRECT_URI || '',
+    client_id: process.env.GITHUB_CLIENT_ID || '04675579503deb3524e5',
+    client_secret: process.env.GITHUB_CLIENT_SECRET || 'client_secret',
+    redirect_uri: process.env.GITHUB_REDIRECT_URI || 'http://127.0.0.1:7001/oauth/github',
   };
 
   const bizConfig = {

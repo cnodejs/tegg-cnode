@@ -37,7 +37,8 @@
     "egg-scripts": "^2.15.2",
     "egg-typebox-validate": "^2.3.1",
     "egg-view-nunjucks": "^2.3.0",
-    "urllib": "^2.38.0"
+    "urllib": "^2.38.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@eggjs/tsconfig": "^1.0.0",
@@ -60,7 +61,7 @@
     "typescript": "^4.5.4"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=16"
   },
   "ci": {
     "type": "github",

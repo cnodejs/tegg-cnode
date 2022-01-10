@@ -2,7 +2,7 @@ version: '3'
 services:
   redis:
     image: redis:3.2-alpine
-    command: redis-server --appendonly yes --requirepass cnode
+    # command: redis-server --appendonly yes --requirepass cnode
     volumes:
       - egg-redis:/data
     networks:

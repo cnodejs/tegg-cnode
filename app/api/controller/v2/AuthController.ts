@@ -12,7 +12,6 @@ import { AbstractController } from '../AbstractController';
   path: '/api/v2/auth',
 })
 export class AuthController extends AbstractController {
-
   @HTTPMethod({
     method: HTTPMethodEnum.POST,
     path: '/signin',

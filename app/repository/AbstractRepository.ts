@@ -25,11 +25,37 @@ export abstract class AbstractRepository<T> {
     return this.model[modelName];
   }
 
-  async getById(id: string, projection?: any) {
+  async create(model: Partial<T>) {
+    this.logger.debug('create', model);
+    const _model = new this.__model(model);
+    const res = await _model.save();
+    return res;
+  }
+
+  async update(id: string, model: Partial<T>) {
+    this.logger.debug('update', id, model);
     const query = {
       _id: id,
     };
+    const res = await this.__model.updateOne(query as any, model as any).exec();
+    return res;
+  }
 
-    return await this.__model.findOne(query as any, projection).exec();
+  async read(id: string, projection?: any) {
+    this.logger.debug('read', id);
+    const query = {
+      _id: id,
+    };
+    const res = await this.__model.findOne(query as any, projection).exec();
+    return res;
+  }
+
+  async delete(id: string) {
+    this.logger.debug('delete', id);
+    const query = {
+      _id: id,
+    };
+    const res = await this.__model.deleteOne(query as any).exec();
+    return res;
   }
 }
