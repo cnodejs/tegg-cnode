@@ -6,7 +6,7 @@ import {
   HTTPMethodEnum,
   HTTPParam,
 } from '@eggjs/tegg';
-import { AbstractController } from './AbstractController';
+import { AbstractController } from '../AbstractController';
 
 @HTTPController({
   path: '/api/v2/user',

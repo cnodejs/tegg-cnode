@@ -38,6 +38,12 @@ export default (appInfo: EggAppInfo) => {
     },
   };
 
+  config.github = {
+    client_id: process.env.GITHUB_CLIENT_ID || 'clientId',
+    client_secret: process.env.GITHUB_CLIENT_SECRET || 'clientId',
+    redirect_uri: process.env.GITHUB_REDIRECT_URI || '',
+  };
+
   const bizConfig = {
     jwtAlgorithm: process.env.JWT_ALGORITHM || 'HS256',
   };

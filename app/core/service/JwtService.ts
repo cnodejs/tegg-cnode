@@ -3,13 +3,14 @@ import {
   ContextProto,
   Inject,
 } from '@eggjs/tegg';
+
 import { Application } from 'egg';
 import { AbstractService } from './AbstractService';
 
 @ContextProto({
   accessLevel: AccessLevel.PUBLIC,
 })
-export class AuthService extends AbstractService {
+export class JwtService extends AbstractService {
 
   @Inject()
     jwt: Application['jwt'];
