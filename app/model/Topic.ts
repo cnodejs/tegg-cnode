@@ -1,8 +1,6 @@
 import { Application } from 'egg';
-import { Schema, Types } from 'mongoose';
+import { Schema } from 'mongoose';
 import type { Model } from 'mongoose';
-
-const ObjectId = Types.ObjectId;
 
 export interface Topic {
   title: string;
@@ -37,7 +35,7 @@ export default (app: Application) => {
     content_is_html: { type: Boolean },
 
     tab: { type: String },
-    author_id: { type: ObjectId },
+    author_id: { type: Schema.Types.ObjectId },
     create_at: { type: Date, default: Date.now },
     update_at: { type: Date, default: Date.now },
     deleted: { type: Boolean, default: false },
@@ -50,7 +48,7 @@ export default (app: Application) => {
     visit_count: { type: Number, default: 0 },
     collect_count: { type: Number, default: 0 },
 
-    last_reply: { type: ObjectId },
+    last_reply: { type: Schema.Types.ObjectId },
     last_reply_at: { type: Date, default: Date.now },
   });
 

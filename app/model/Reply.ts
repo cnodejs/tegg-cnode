@@ -1,8 +1,6 @@
 import { Application } from 'egg';
-import { Schema, Types } from 'mongoose';
+import { Schema } from 'mongoose';
 import type { Model } from 'mongoose';
-
-const ObjectId = Types.ObjectId;
 
 export interface Reply {
   content: string;
@@ -24,9 +22,9 @@ export interface ReplyModel extends Model<Reply> {
 export default (app: Application) => {
   const ReplySchema = new Schema<Reply, ReplyModel>({
     content: { type: String },
-    topic_id: { type: ObjectId },
-    author_id: { type: ObjectId },
-    reply_id: { type: ObjectId },
+    topic_id: { type: Schema.Types.ObjectId },
+    author_id: { type: Schema.Types.ObjectId },
+    reply_id: { type: Schema.Types.ObjectId },
     create_at: { type: Date, default: Date.now },
     update_at: { type: Date, default: Date.now },
     content_is_html: { type: Boolean },

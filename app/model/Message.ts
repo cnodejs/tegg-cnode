@@ -1,8 +1,6 @@
 import { Application } from 'egg';
-import { Schema, Types } from 'mongoose';
+import { Schema } from 'mongoose';
 import type { Model } from 'mongoose';
-
-const ObjectId = Types.ObjectId;
 
 export interface Message {
   type: string;
@@ -22,10 +20,10 @@ export interface MessageModel extends Model<Message> {
 export default (app: Application) => {
   const MessageSchema = new Schema<Message, MessageModel>({
     type: { type: String },
-    master_id: { type: ObjectId },
-    author_id: { type: ObjectId },
-    topic_id: { type: ObjectId },
-    reply_id: { type: ObjectId },
+    master_id: { type: Schema.Types.ObjectId },
+    author_id: { type: Schema.Types.ObjectId },
+    topic_id: { type: Schema.Types.ObjectId },
+    reply_id: { type: Schema.Types.ObjectId },
     has_read: { type: Boolean, default: false },
     create_at: { type: Date, default: Date.now },
   });
