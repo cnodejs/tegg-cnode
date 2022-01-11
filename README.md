@@ -1,5 +1,8 @@
 ## tegg-cnode
 
+[![Node.js CI](https://github.com/cnodejs/tegg-cnode/actions/workflows/nodejs.yml/badge.svg)](https://github.com/cnodejs/tegg-cnode/actions/workflows/nodejs.yml)
+[![codecov](https://codecov.io/gh/cnodejs/tegg-cnode/branch/master/graph/badge.svg)](https://codecov.io/gh/cnodejs/tegg-cnode)
+
 > CNodejs.org Powered By Tegg.
 
 ## QuickStart
