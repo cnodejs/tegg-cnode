@@ -1,4 +1,4 @@
-FROM node:12.16.2-alpine
+FROM node:lts-alpine
 
 ENV TIME_ZONE=Asia/Shanghai
 
