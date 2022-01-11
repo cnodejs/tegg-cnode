@@ -38,7 +38,8 @@ $ npm start
 ## How to contribute
 
 - [API.md](docs/API.md)
-- [DEVELOPER.md](docs/DEVELOPER.md)
+- [Docker.md](docs/Docker.md)
+- [Developement.md](docs/Developement.md)
 
 ## License
 
