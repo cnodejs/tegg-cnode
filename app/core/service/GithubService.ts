@@ -1,7 +1,4 @@
-import {
-  AccessLevel,
-  ContextProto,
-} from '@eggjs/tegg';
+import { AccessLevel, ContextProto } from '@eggjs/tegg';
 
 import { AbstractService } from './AbstractService';
 

@@ -8,8 +8,7 @@ export interface TopicCollect {
   create_at: Date;
 }
 
-export interface TopicCollectModel extends Model<TopicCollect> {
-}
+export interface TopicCollectModel extends Model<TopicCollect> {}
 
 export default (app: Application) => {
   const TopicCollectSchema = new Schema<TopicCollect, TopicCollectModel>({
@@ -20,5 +19,8 @@ export default (app: Application) => {
 
   TopicCollectSchema.index({ user_id: 1, topic_id: 1 }, { unique: true });
 
-  return app.mongoose.model<TopicCollect, TopicCollectModel>('TopicCollect', TopicCollectSchema);
+  return app.mongoose.model<TopicCollect, TopicCollectModel>(
+    'TopicCollect',
+    TopicCollectSchema,
+  );
 };

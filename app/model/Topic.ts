@@ -10,7 +10,7 @@ export interface Topic {
   tab: string;
   author_id: ObjectId;
   create_at: Date;
-  update_at: Date
+  update_at: Date;
   deleted: boolean;
 
   top: boolean;
@@ -25,8 +25,7 @@ export interface Topic {
   last_reply_at: Date;
 }
 
-export interface TopicModel extends Model<Topic> {
-}
+export interface TopicModel extends Model<Topic> {}
 
 export default (app: Application) => {
   const TopicSchema = new Schema<Topic, TopicModel>({

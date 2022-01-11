@@ -1,8 +1,4 @@
-import {
-  AccessLevel,
-  ContextProto,
-  Inject,
-} from '@eggjs/tegg';
+import { AccessLevel, ContextProto, Inject } from '@eggjs/tegg';
 
 import { Application } from 'egg';
 import { AbstractService } from './AbstractService';
@@ -11,12 +7,13 @@ import { AbstractService } from './AbstractService';
   accessLevel: AccessLevel.PUBLIC,
 })
 export class JwtService extends AbstractService {
-
   @Inject()
-    jwt: Application['jwt'];
+  jwt: Application['jwt'];
 
   async sign(user: any) {
-    const { jwt: { secret } } = this.config;
+    const {
+      jwt: { secret },
+    } = this.config;
     const token = this.jwt.sign(user, secret, {
       expiresIn: '2h',
     });

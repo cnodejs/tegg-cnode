@@ -18,8 +18,11 @@ export default (appInfo: EggAppInfo) => {
   config.jwt = {
     enable: true,
     secret: process.env.JWT_SECRET || 'JWT_SECRET',
-    match: ctx => {
-      if (ctx.path.startsWith('/api/v2') && (ctx.method === 'PUT' || ctx.method === 'POST')) {
+    match: (ctx) => {
+      if (
+        ctx.path.startsWith('/api/v2') &&
+        (ctx.method === 'PUT' || ctx.method === 'POST')
+      ) {
         return true;
       }
       return false;
@@ -27,7 +30,9 @@ export default (appInfo: EggAppInfo) => {
   };
 
   config.mongoose = {
-    url: process.env.EGG_MONGODB_URL || 'mongodb://cnode:cnode@127.0.0.1:27017/cnode',
+    url:
+      process.env.EGG_MONGODB_URL ||
+      'mongodb://cnode:cnode@127.0.0.1:27017/cnode',
     options: {
       useUnifiedTopology: true,
       family: 4,
@@ -46,7 +51,8 @@ export default (appInfo: EggAppInfo) => {
   config.github = {
     client_id: process.env.GITHUB_CLIENT_ID || '04675579503deb3524e5',
     client_secret: process.env.GITHUB_CLIENT_SECRET || 'client_secret',
-    redirect_uri: process.env.GITHUB_REDIRECT_URI || 'http://127.0.0.1:7001/oauth/github',
+    redirect_uri:
+      process.env.GITHUB_REDIRECT_URI || 'http://127.0.0.1:7001/oauth/github',
   };
 
   const bizConfig = {

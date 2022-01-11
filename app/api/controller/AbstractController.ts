@@ -1,10 +1,5 @@
-import {
-  Inject,
-} from '@eggjs/tegg';
-import {
-  EggLogger,
-  EggAppConfig,
-} from 'egg';
+import { Inject } from '@eggjs/tegg';
+import { EggLogger, EggAppConfig } from 'egg';
 
 import { MiddlewareController } from '../middleware';
 import { JwtService } from 'app/core/service/JwtService';

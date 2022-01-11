@@ -15,7 +15,10 @@ describe('test/app/api/controller/v2/UserController.test.ts', () => {
 
   describe('[GET /api/v2/user/:loginname]', () => {
     it('should get user info', async () => {
-      const result = await app.httpRequest().get('/api/v2/user/cnode').expect(200);
+      const result = await app
+        .httpRequest()
+        .get('/api/v2/user/cnode')
+        .expect(200);
       assert(result.body.data.user.name, 'cnode');
     });
   });

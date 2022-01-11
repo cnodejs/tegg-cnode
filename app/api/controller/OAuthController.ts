@@ -40,7 +40,11 @@ export class OAuthController extends AbstractController {
     method: HTTPMethodEnum.GET,
     path: '/github',
   })
-  async github(@Context() ctx: EggContext, @HTTPQuery() code: string, @HTTPQuery() callbackUrl: string) {
+  async github(
+    @Context() ctx: EggContext,
+    @HTTPQuery() code: string,
+    @HTTPQuery() callbackUrl: string,
+  ) {
     const authInfo = await this.githubService.exchange(code);
     this.logger.debug('authInfo', authInfo);
 
@@ -58,13 +62,7 @@ export class OAuthController extends AbstractController {
 
     // Sync User: create or update user with github userinfo.
 
-    const {
-      name,
-      email,
-      avatar_url,
-      id: githubId,
-      login: username,
-    } = userInfo;
+    const { name, email, avatar_url, id: githubId, login: username } = userInfo;
 
     let user;
 

@@ -1,14 +1,9 @@
 import * as uuid from 'uuid';
 
-import {
-  AccessLevel,
-  ContextProto,
-  Inject,
-} from '@eggjs/tegg';
-import { User } from 'app/model/User';
-
-import { UserRepository } from '../../repository/UserRepository';
+import { AccessLevel, ContextProto, Inject } from '@eggjs/tegg';
 import { AbstractService } from './AbstractService';
+import { User } from 'app/model/User';
+import { UserRepository } from '../../repository/UserRepository';
 
 @ContextProto({
   accessLevel: AccessLevel.PUBLIC,

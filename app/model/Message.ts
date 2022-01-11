@@ -14,8 +14,7 @@ export interface Message {
   create_at: Date;
 }
 
-export interface MessageModel extends Model<Message> {
-}
+export interface MessageModel extends Model<Message> {}
 
 export default (app: Application) => {
   const MessageSchema = new Schema<Message, MessageModel>({

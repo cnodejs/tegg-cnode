@@ -1,9 +1,5 @@
-import {
-  Inject,
-} from '@eggjs/tegg';
-import {
-  EggLogger,
-} from 'egg';
+import { Inject } from '@eggjs/tegg';
+import { EggLogger } from 'egg';
 
 import { Model } from 'mongoose';
 
@@ -14,7 +10,7 @@ export abstract class AbstractRepository<T> {
   protected logger: EggLogger;
 
   @Inject()
-    model: { [index: string]: Model<any, any> };
+  model: { [index: string]: Model<any, any> };
 
   constructor(modelName: string) {
     this.modelName = modelName;

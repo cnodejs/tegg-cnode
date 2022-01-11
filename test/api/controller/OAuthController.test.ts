@@ -16,9 +16,13 @@ describe('test/app/api/controller/OAuthController.test.ts', () => {
   describe('[GET /oauth]', () => {
     it('should get auth info', async () => {
       const callbackUrl = 'http://127.0.0.1:7001';
-      const githubOAuthUrl = 'https://github.com/login/oauth/authorize?client_id=04675579503deb3524e5&redirect_uri=http://127.0.0.1:7001/oauth/github?callbackUrl=http%3A%2F%2F127.0.0.1%3A7001';
+      const githubOAuthUrl =
+        'https://github.com/login/oauth/authorize?client_id=04675579503deb3524e5&redirect_uri=http://127.0.0.1:7001/oauth/github?callbackUrl=http%3A%2F%2F127.0.0.1%3A7001';
 
-      const result = await app.httpRequest().get(`/oauth?callbackUrl=${callbackUrl}`).expect(200);
+      const result = await app
+        .httpRequest()
+        .get(`/oauth?callbackUrl=${callbackUrl}`)
+        .expect(200);
       assert(result.body.data.githubOAuthUrl, githubOAuthUrl);
     });
   });
@@ -28,12 +32,16 @@ describe('test/app/api/controller/OAuthController.test.ts', () => {
       const code = 'code';
       const callbackUrl = 'http%3A%2F%2F127.0.0.1%3A7001';
 
-      app.mockHttpclient('https://github.com/login/oauth/access_token', 'POST', {
-        data: {
-          access_token: 'access_token',
+      app.mockHttpclient(
+        'https://github.com/login/oauth/access_token',
+        'POST',
+        {
+          data: {
+            access_token: 'access_token',
+          },
+          status: 200,
         },
-        status: 200,
-      });
+      );
 
       app.mockHttpclient('https://api.github.com/user', 'GET', {
         data: {
@@ -46,7 +54,10 @@ describe('test/app/api/controller/OAuthController.test.ts', () => {
         status: 200,
       });
 
-      await app.httpRequest().get(`/oauth/github?code=${code}&callbackUrl=${callbackUrl}`).expect(302);
+      await app
+        .httpRequest()
+        .get(`/oauth/github?code=${code}&callbackUrl=${callbackUrl}`)
+        .expect(302);
     });
   });
 });
