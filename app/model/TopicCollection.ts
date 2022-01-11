@@ -1,10 +1,10 @@
 import { Application } from 'egg';
-import { Schema } from 'mongoose';
+import { Schema, ObjectId } from 'mongoose';
 import type { Model } from 'mongoose';
 
 export interface TopicCollect {
-  user_id: string;
-  topic_id: string;
+  user_id: ObjectId;
+  topic_id: ObjectId;
   create_at: Date;
 }
 

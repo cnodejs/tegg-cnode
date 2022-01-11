@@ -1,14 +1,14 @@
 import { Application } from 'egg';
-import { Schema } from 'mongoose';
+import { Schema, ObjectId } from 'mongoose';
 import type { Model } from 'mongoose';
 
 export interface Message {
   type: string;
 
-  master_id: string;
-  author_id: string;
-  topic_id: string;
-  reply_id: string;
+  master_id: ObjectId;
+  author_id: ObjectId;
+  topic_id: ObjectId;
+  reply_id: ObjectId;
 
   has_read: boolean;
   create_at: Date;

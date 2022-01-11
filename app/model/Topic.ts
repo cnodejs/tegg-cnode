@@ -1,5 +1,5 @@
 import { Application } from 'egg';
-import { Schema } from 'mongoose';
+import { Schema, ObjectId } from 'mongoose';
 import type { Model } from 'mongoose';
 
 export interface Topic {
@@ -8,7 +8,7 @@ export interface Topic {
   content_is_html: boolean;
 
   tab: string;
-  author_id: string;
+  author_id: ObjectId;
   create_at: Date;
   update_at: Date
   deleted: boolean;
@@ -21,7 +21,7 @@ export interface Topic {
   visit_count: number;
   collect_count: number;
 
-  last_reply: string;
+  last_reply: ObjectId;
   last_reply_at: Date;
 }
 

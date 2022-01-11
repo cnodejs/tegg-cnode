@@ -1,6 +1,3 @@
-# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Node.js CI
 
 on:
@@ -17,46 +14,43 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
-    env:
-      EGG_MONGODB_URL: 'mongodb://root:root@127.0.0.1:27017/admin'
+    runs-on: ubuntu-latest
+    container: node:16-buster
 
     services:
       redis:
-        image: redis:3-alpine
-        ports:
-          - 6379:6379
+        image: redis:3
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 10s
+          --health-retries 5
 
       mongo:
         image: mongo:3.6
         env:      
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: root
-          MONGO_INITDB_DATABASE: admin
-        ports:
-          - 27017:27017
-
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [16]
-        os: [ubuntu-latest]
+          MONGO_INITDB_DATABASE: cnode
+        options: >-
+          --health-cmd "mongo"
+          --health-interval 10s
+          --health-timeout 10s
+          --health-retries 5
 
     steps:
     - name: Checkout Git Source
       uses: actions/checkout@v2
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-
     - name: Install Dependencies
-      run: npm i -g npminstall && npminstall
+      run: yarn
 
     - name: Continuous Integration
-      run: npm run ci
+      run: yarn ci
+      env:
+        EGG_REDIS_HOST: redis
+        EGG_REDIS_PORT: 6379
+        EGG_MONGODB_URL: 'mongodb://cnode:cnode@mongo:27017/cnode'
 
     - name: Code Coverage
       uses: codecov/codecov-action@v1

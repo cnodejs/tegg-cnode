@@ -14,12 +14,13 @@
     "stop": "egg-scripts stop --title=tegg-cnode",
     "dev": "egg-bin dev",
     "debug": "egg-bin debug",
-    "cov": "egg-bin cov",
+    "cov": "npm run prepare-database && egg-bin cov -r tsconfig-paths/register --full-trace --reporter dot",
     "clean": "ets clean",
     "ci": "npm run lint && npm run cov",
     "tsc": "ets && tsc -p tsconfig.json",
+    "prepare-database": "node test/prepare.js",
     "test": "npm run lint && npm run test-local",
-    "test-local": "egg-bin test",
+    "test-local": "npm run prepare-database && egg-bin test -r tsconfig-paths/register --full-trace --reporter dot",
     "lint": "eslint . --fix --ext .ts"
   },
   "gitHooks": {

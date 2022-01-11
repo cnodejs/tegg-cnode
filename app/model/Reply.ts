@@ -1,5 +1,5 @@
 import { Application } from 'egg';
-import { Schema } from 'mongoose';
+import { Schema, ObjectId } from 'mongoose';
 import type { Model } from 'mongoose';
 
 export interface Reply {
@@ -9,11 +9,11 @@ export interface Reply {
   update_at: Date;
   deleted: boolean;
 
-  topic_id: string;
-  author_id: string;
-  reply_id: string;
+  topic_id: ObjectId;
+  author_id: ObjectId;
+  reply_id: ObjectId;
 
-  ups: string[],
+  ups: ObjectId[],
 }
 
 export interface ReplyModel extends Model<Reply> {

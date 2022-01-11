@@ -26,3 +26,5 @@ app/public
 config/manifest.json
 
 !init.d/mongo/init.js
+
+!test/prepare.js
