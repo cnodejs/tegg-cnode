@@ -27,16 +27,16 @@ export default (appInfo: EggAppInfo) => {
   };
 
   config.mongoose = {
-    url: process.env.EGG_MONGODB_URL || 'mongodb://cnode:cnode@localhost:27017/cnode',
+    url: process.env.EGG_MONGODB_URL || 'mongodb://cnode:cnode@127.0.0.1:27017/cnode',
     options: {
-      reconnectTries: 10,
-      reconnectInterval: 3000,
+      useUnifiedTopology: true,
+      family: 4,
     },
   };
 
   config.redis = {
     client: {
-      host: process.env.EGG_REDIS_HOST || 'localhost',
+      host: process.env.EGG_REDIS_HOST || '127.0.0.1',
       port: parseInt(process.env.EGG_REDIS_PORT || '6379'),
       db: parseInt(process.env.EGG_REDIS_DB || '0'),
       password: process.env.EGG_REDIS_PASSWORD || '',
