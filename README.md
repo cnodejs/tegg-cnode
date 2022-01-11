@@ -28,9 +28,18 @@ $ npm start
 
 - Use `npm run lint` to check code style
 - Use `npm test` to run unit test
-- se `npm run clean` to clean compiled js at development mode once
+- Use `npm run clean` to clean compiled js at development mode once
 
 ### Requirement
 
 - Node.js 16.x
 - Typescript 4.x+
+
+## How to contribute
+
+- [API.md](docs/API.md)
+- [DEVELOPER.md](docs/DEVELOPER.md)
+
+## License
+
+[MIT](LICENSE)
