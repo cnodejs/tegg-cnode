@@ -16,11 +16,18 @@ export class OAuthController extends AbstractController {
     method: HTTPMethodEnum.GET,
     path: '/',
   })
-  async index(@Context() ctx: EggContext) {
+  async index(@Context() ctx: EggContext, @HTTPQuery() callbackUrl: string) {
     const { config } = this;
     const { client_id, redirect_uri } = config.github;
 
-    const githubOAuthUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}`;
+    const redirectUri = new URL(redirect_uri);
+
+    if (callbackUrl) {
+      // encode callback_url
+      redirectUri.searchParams.set('callbackUrl', callbackUrl);
+    }
+
+    const githubOAuthUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirectUri.toString()}`;
 
     ctx.body = {
       data: {
@@ -84,11 +91,15 @@ export class OAuthController extends AbstractController {
     user = await this.userService.getByGithubId(githubId);
     this.logger.debug('user.updated', user);
 
-    const token = await this.jwtService.sign(user);
+    const token = await this.jwtService.sign(user.toObject());
     this.logger.debug('token', token);
 
     if (callbackUrl) {
-      ctx.redirect(`${callbackUrl}?token=${token}`);
+      // decode callback_url
+      const _callbackUrl = decodeURIComponent(callbackUrl);
+      const redirectUri = new URL(_callbackUrl);
+      redirectUri.searchParams.set('token', token);
+      ctx.redirect(redirectUri.toString());
       return;
     }
 

@@ -1,4 +1,3 @@
-import urllib from 'urllib';
 import {
   AccessLevel,
   ContextProto,
@@ -15,7 +14,7 @@ export class GithubService extends AbstractService {
 
     const url = 'https://github.com/login/oauth/access_token';
 
-    const { data } = await urllib.request<AccessToken>(url, {
+    const { data } = await this.httpclient.request<AccessToken>(url, {
       dataType: 'json',
       method: 'POST',
       headers: {
@@ -39,7 +38,7 @@ export class GithubService extends AbstractService {
   async getUser(access_token: string) {
     const url = 'https://api.github.com/user';
 
-    const { data } = await urllib.request<GithubUserInfo>(url, {
+    const { data } = await this.httpclient.request<GithubUserInfo>(url, {
       dataType: 'json',
       method: 'GET',
       headers: {

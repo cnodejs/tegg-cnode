@@ -19,7 +19,9 @@ export class UserController extends AbstractController {
   async show(@Context() ctx: EggContext, @HTTPParam() loginname: string) {
     const user = await this.userService.getByLoginName(loginname);
     ctx.body = {
-      user,
+      data: {
+        user: user.toObject(),
+      },
     };
   }
 }

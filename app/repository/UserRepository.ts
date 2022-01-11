@@ -13,11 +13,11 @@ export class UserRepository extends AbstractRepository<User> {
   async getByLoginName(loginName: string, projection?: any) {
     const query = { loginname: new RegExp('^' + loginName + '$', 'i') };
     const user = await this.__model.findOne(query, projection).exec();
-    return user.toObject();
+    return user;
   }
 
   async getByGithubId(githubId: string, projection?: any) {
     const user = await this.__model.findOne({ githubId }, projection).exec();
-    return user.toObject();
+    return user;
   }
 }

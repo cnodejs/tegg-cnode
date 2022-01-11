@@ -19,6 +19,24 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
 
+    env:
+      EGG_MONGODB_URL: 'mongodb://root:root@127.0.0.1:27017/admin'
+
+    services:
+      redis:
+        image: redis:3-alpine
+        ports:
+          - 6379:6379
+
+      mongo:
+        image: mongo:3.6
+        env:      
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: root
+          MONGO_INITDB_DATABASE: admin
+        ports:
+          - 27017:27017
+
     strategy:
       fail-fast: false
       matrix:
