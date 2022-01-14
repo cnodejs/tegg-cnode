@@ -12,8 +12,7 @@ RUN \
   && ln -sf /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime \
   && npm install \
   && npm run build \
-  && npm prune --production  \
-  && npm cache clean
+  && npm prune --production
 
 EXPOSE 7001
 
