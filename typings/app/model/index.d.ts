@@ -6,7 +6,7 @@ import ExportMessage from '../../../app/model/Message';
 import ExportReply from '../../../app/model/Reply';
 import ExportTopic from '../../../app/model/Topic';
 import ExportTopicCollection from '../../../app/model/TopicCollection';
-import ExportUser from '../../../app/model/User';
+import ExportUser from '../../../app/model/user';
 
 declare module 'egg' {
   interface IModel {

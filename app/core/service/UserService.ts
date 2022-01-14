@@ -2,7 +2,7 @@ import * as uuid from 'uuid';
 
 import { AccessLevel, ContextProto, Inject } from '@eggjs/tegg';
 import { AbstractService } from './AbstractService';
-import { User } from 'app/model/User';
+import { User } from '../../model/User';
 import { UserRepository } from '../../repository/UserRepository';
 
 @ContextProto({
