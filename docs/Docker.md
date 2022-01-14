@@ -1,14 +1,5 @@
 # Docker
 
-[![Docker Automated build][docker-build-image]][docker-build-url] [![Docker Stars][docker-star-image]][docker-star-url] [![Docker pulls][docker-pull-image]][docker-pull-url]
-
-[docker-build-image]: https://img.shields.io/docker/automated/cnode/tegg-cnode.svg
-[docker-build-url]: https://github.com/cnode/egg-cnode/
-[docker-star-image]: https://img.shields.io/docker/stars/cnode/tegg-cnode.svg
-[docker-star-url]: https://registry.hub.docker.com/v2/repositories/cnode/tegg-cnode/stars/count/
-[docker-pull-image]: https://img.shields.io/docker/pulls/cnode/tegg-cnode.svg
-[docker-pull-url]: https://registry.hub.docker.com/v2/repositories/cnode/tegg-cnode/
-
 ## Requirements
 
 - docker

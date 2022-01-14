@@ -1,9 +1,11 @@
 ## tegg-cnode
 
+[![Docker CI](https://github.com/cnodejs/tegg-cnode/actions/workflows/docker.yml/badge.svg)](https://github.com/cnodejs/tegg-cnode/actions/workflows/docker.yml)
 [![Node.js CI](https://github.com/cnodejs/tegg-cnode/actions/workflows/nodejs.yml/badge.svg)](https://github.com/cnodejs/tegg-cnode/actions/workflows/nodejs.yml)
 [![codecov](https://codecov.io/gh/cnodejs/tegg-cnode/branch/master/graph/badge.svg)](https://codecov.io/gh/cnodejs/tegg-cnode)
 
 > CNodejs.org Powered By Tegg.
+
 
 ## QuickStart
 
@@ -24,6 +26,12 @@ $ npm run tsc
 $ npm start
 ```
 
+### Docker
+
+```bash
+$ docker pull ghcr.io/cnodejs/tegg-cnode:master
+```
+
 ### Npm Scripts
 
 - Use `npm run lint` to check code style
@@ -35,12 +43,19 @@ $ npm start
 - Node.js 16.x
 - Typescript 4.x+
 
+
 ## How to contribute
 
 - [API.md](docs/API.md)
 - [Docker.md](docs/Docker.md)
 - [Developement.md](docs/Developement.md)
 
+
 ## License
 
 [MIT](LICENSE)
+
+
+## Contributors
+
+[![contributors](https://ergatejs.implements.io/badges/contributors/cnodejs/tegg-cnode.svg)](https://github.com/cnodejs/tegg-cnode/graphs/contributors)
