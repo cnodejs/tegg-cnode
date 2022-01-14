@@ -1,6 +1,6 @@
 import { AccessLevel, ContextProto } from '@eggjs/tegg';
 import { AbstractRepository } from './AbstractRepository';
-import { Message } from 'app/model/Message';
+import { Message } from '../model/Message';
 
 @ContextProto({
   accessLevel: AccessLevel.PUBLIC,

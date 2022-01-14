@@ -1,6 +1,6 @@
 import { AccessLevel, ContextProto } from '@eggjs/tegg';
 import { AbstractRepository } from './AbstractRepository';
-import { TopicCollect } from 'app/model/TopicCollection';
+import { TopicCollect } from '../model/TopicCollection';
 
 @ContextProto({
   accessLevel: AccessLevel.PUBLIC,
