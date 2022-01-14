@@ -101,7 +101,7 @@ export default (app: Application) => {
   UserSchema.index({ githubId: 1 });
   UserSchema.index({ accessToken: 1 });
 
-  UserSchema.virtual('avatar_url').get(function (this: User) {
+  UserSchema.virtual('avatar_url').get(function(this: User) {
     let url =
       this.avatar ||
       'https://gravatar.com/avatar/' +
@@ -124,12 +124,12 @@ export default (app: Application) => {
     return url;
   });
 
-  UserSchema.virtual('isAdvanced').get(function (this: User) {
+  UserSchema.virtual('isAdvanced').get(function(this: User) {
     // 积分高于 700 则认为是高级用户
     return this.score > 700 || this.is_star;
   });
 
-  UserSchema.pre('save', function (next): void {
+  UserSchema.pre('save', function(next): void {
     const now = new Date();
     this.update_at = now;
     next();

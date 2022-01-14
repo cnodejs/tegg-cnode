@@ -18,7 +18,7 @@ export default (appInfo: EggAppInfo) => {
   config.jwt = {
     enable: true,
     secret: process.env.JWT_SECRET || 'JWT_SECRET',
-    match: (ctx) => {
+    match: ctx => {
       if (
         ctx.path.startsWith('/api/v2') &&
         (ctx.method === 'PUT' || ctx.method === 'POST')

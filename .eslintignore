@@ -1,0 +1,6 @@
+**/*.d.ts
+
+mocks/
+dist/
+coverage/
+node_modules/

@@ -20,18 +20,18 @@
     "tsc": "ets && tsc -p tsconfig.json",
     "test": "npm run lint && npm run test-local",
     "test-local": "egg-bin test -r tsconfig-paths/register --full-trace --reporter dot",
-    "lint": "prettier --check '**/*.{js,jsx,tsx,ts,less,md,json}'",
-    "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'"
+    "lint": "eslint . --ext .ts --fix",
+    "prettier": "prettier --write '**/*.{md,json}'"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx,less,md,json}": [
+    "*.{md,json}": [
       "prettier --write"
     ],
-    "*.ts?(x)": [
-      "prettier --parser=typescript --write"
+    "*.ts": [
+      "eslint --fix"
     ]
   },
   "dependencies": {
@@ -58,6 +58,8 @@
     "dotenv": "^10.0.0",
     "egg-bin": "^4.16.4",
     "egg-mock": "^3.16.0",
+    "eslint": "^8.6.0",
+    "eslint-config-egg": "^10.0.0",
     "lint-staged": "^10.1.2",
     "prettier": "^2.0.4",
     "tsconfig-paths": "^3.12.0",
