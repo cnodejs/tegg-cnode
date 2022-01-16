@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { md5, hmac, slat, makeGravatar } from '../../app/common/UserUtil';
+import { md5, hmac, salt, bhash, bcompare, makeGravatar } from '../../app/common/UserUtil';
 
 describe('test/app/common/UserUtil.test.ts', () => {
   describe('md5()', () => {
@@ -17,9 +17,21 @@ describe('test/app/common/UserUtil.test.ts', () => {
     });
   });
 
-  describe('slat()', () => {
+  describe('salt()', () => {
     it('should work', async () => {
-      assert(slat().length === 32);
+      assert(salt().length === 32);
+    });
+  });
+
+  describe('bhash()', () => {
+    it('should work', async () => {
+      assert(bhash('cnodejs').length === 60);
+    });
+  });
+
+  describe('bcompare()', () => {
+    it('should work', async () => {
+      assert(bcompare('cnodejs', '$2a$10$nJNEWUl5svFNgio3bMmi3uOvyrsGehapAVF6AqoPCKcAYiELARbO6'));
     });
   });
 

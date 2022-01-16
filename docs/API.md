@@ -85,7 +85,49 @@ OAuth 认证相关接口，目前只实现 Github 认证。
 
 认证接口，主要实现登录、注册等功能
 
-### POST: /v2/auth/signin
+### POST: /api/auth/signin
 
-### POST: /v2/auth/signup
+参数
 
+```js
+{
+  loginname: 'cnodejs',
+  email: 'cnodejs@cnodejs.org',
+  pass: 'cnodejs',
+  rePass: 'cnodejs',
+}
+```
+
+返回
+
+```
+{
+  data: {
+    user: {}
+  }
+}
+```
+
+
+### POST: /api/auth/signup
+
+参数
+
+```js
+{
+  loginname: 'cnodejs',
+  // email: 'cnodejs@cnodejs.org',
+  pass: 'cnodejs',
+}
+```
+
+返回
+
+```
+{
+  data: {
+    user: {},
+    token: '', // jwt token
+  }
+}
+```

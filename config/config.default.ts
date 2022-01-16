@@ -55,12 +55,13 @@ export default (appInfo: EggAppInfo) => {
       process.env.GITHUB_REDIRECT_URI || 'http://127.0.0.1:7001/oauth/github',
   };
 
-  const bizConfig = {
+  const cnodejs = {
+    allowPublicRegistration: true,
     jwtAlgorithm: process.env.JWT_ALGORITHM || 'HS256',
   };
 
   return {
     ...config,
-    ...bizConfig,
+    ...cnodejs,
   };
 };
