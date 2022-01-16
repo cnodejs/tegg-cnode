@@ -4,7 +4,10 @@
     "experimentalDecorators": true,
     "declaration": false,
     "resolveJsonModule": true,
-    "baseUrl": "."    
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+    } 
   },
   "exclude": [
     "node_modules"

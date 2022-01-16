@@ -1,5 +1,6 @@
 import { Inject } from '@eggjs/tegg';
 import { EggLogger } from 'egg';
+import { FilterQuery, QueryOptions } from 'mongoose';
 
 import { Model } from 'mongoose';
 
@@ -19,6 +20,11 @@ export abstract class AbstractRepository<T> {
   protected get __model(): Model<T, any, any> {
     const modelName = this.modelName;
     return this.model[modelName];
+  }
+
+  async query(query: FilterQuery<T>, projection?:any, options?: QueryOptions | null) {
+    const res = await this.__model.find(query as any, projection, options).exec();
+    return res;
   }
 
   async create(model: Partial<T>) {
@@ -54,4 +60,5 @@ export abstract class AbstractRepository<T> {
     const res = await this.__model.deleteOne(query as any).exec();
     return res;
   }
+
 }
