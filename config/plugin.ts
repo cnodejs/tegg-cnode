@@ -1,4 +1,5 @@
 import { EggPlugin } from 'egg';
+import 'tsconfig-paths/register';
 
 const plugin: EggPlugin = {
   // nunjucks: {
@@ -34,11 +35,6 @@ const plugin: EggPlugin = {
   jwt: {
     enable: true,
     package: 'egg-jwt',
-  },
-
-  typeboxValidate: {
-    enable: true,
-    package: 'egg-typebox-validate',
   },
 };
 

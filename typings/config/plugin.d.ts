@@ -20,7 +20,6 @@ import '@eggjs/tegg-config';
 import 'egg-mongoose';
 import 'egg-redis';
 import 'egg-jwt';
-import 'egg-typebox-validate';
 import { EggPluginItem } from 'egg';
 declare module 'egg' {
   interface EggPlugin {
@@ -42,6 +41,5 @@ declare module 'egg' {
     mongoose?: EggPluginItem;
     redis?: EggPluginItem;
     jwt?: EggPluginItem;
-    typeboxValidate?: EggPluginItem;
   }
 }
