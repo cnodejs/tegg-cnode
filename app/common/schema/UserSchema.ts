@@ -16,6 +16,7 @@ const UserSchema = {
       type: 'string',
     },
     rePass: {
+      type: 'string',
       const: {
         $data: '1/pass',
       },
