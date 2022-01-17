@@ -1,9 +1,8 @@
-import { Inject } from '@eggjs/tegg';
 import { EggLogger } from 'egg';
-import { FilterQuery, QueryOptions } from 'mongoose';
+import { Inject } from '@eggjs/tegg';
 
 import { Model } from 'mongoose';
-
+import type { FilterQuery, QueryOptions } from 'mongoose';
 export abstract class AbstractRepository<T> {
   private modelName: string;
 

@@ -2,8 +2,8 @@ import * as uuid from 'uuid';
 
 import { AccessLevel, ContextProto, Inject } from '@eggjs/tegg';
 import { AbstractService } from './AbstractService';
-import { User } from '../../model/User';
-import { UserRepository } from '../../repository/UserRepository';
+import { User } from '@/app/model/User';
+import { UserRepository } from '@/app/repository/UserRepository';
 import { FilterQuery, QueryOptions } from 'mongoose';
 
 const defaltProjection = [
