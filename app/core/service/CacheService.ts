@@ -9,7 +9,7 @@ export class CacheService extends AbstractService {
   @Inject()
   redis: Application['redis'];
 
-  async get(key: string) {
+  async get(key: string): Promise<null | undefined | any> {
     const { redis, logger } = this;
     const t = Date.now();
     let data = await redis.get(key);
