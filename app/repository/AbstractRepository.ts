@@ -33,11 +33,10 @@ export abstract class AbstractRepository<T> {
     return res;
   }
 
-  async update(id: string, model: Partial<T>, filter?: any) {
+  async update(id: string, model: Partial<T>) {
     this.logger.debug('update', id, model);
     const query = {
       _id: id,
-      ...filter,
     };
     const res = await this.__model.updateOne(query as any, model as any).exec();
     return res;
@@ -52,11 +51,10 @@ export abstract class AbstractRepository<T> {
     return res;
   }
 
-  async delete(id: string, filter?: any) {
+  async delete(id: string) {
     this.logger.debug('delete', id);
     const query = {
       _id: id,
-      ...filter,
     };
     const res = await this.__model.deleteOne(query as any).exec();
     return res;

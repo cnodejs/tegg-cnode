@@ -6,7 +6,6 @@ const TopicSchema = {
     title: {
       type: 'string',
       minLength: 5,
-      maxLength: 100,
     },
     content: {
       type: 'string',
@@ -24,7 +23,7 @@ const TopicSchema = {
     'content',
     'tab',
   ],
-  additionalProperties: false,
+  additionalProperties: true,
 } as const;
 
 export type TopicSchemaType = JTDDataType<typeof TopicSchema>;
