@@ -17,7 +17,7 @@ export default (appInfo: EggAppInfo) => {
 
   config.jwt = {
     enable: true,
-    secret: process.env.JWT_SECRET || 'JWT_SECRET',
+    secret: process.env.EGG_JWT_SECRET || 'JWT_SECRET',
     match: ctx => {
       if (
         ctx.path.startsWith('/api/v2') &&
@@ -57,7 +57,7 @@ export default (appInfo: EggAppInfo) => {
 
   const cnodejs = {
     allowPublicRegistration: true,
-    jwtAlgorithm: process.env.JWT_ALGORITHM || 'HS256',
+    jwtAlgorithm: process.env.EGG_JWT_ALGORITHM || 'HS256',
   };
 
   return {
