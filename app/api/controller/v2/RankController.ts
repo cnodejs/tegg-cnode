@@ -17,7 +17,7 @@ export class RankController extends AbstractController {
     method: HTTPMethodEnum.GET,
     path: '/users',
   })
-  async showTopUsers(@Context() ctx: EggContext, @HTTPQuery() limit: number) {
+  async showTopUsers(@Context() ctx: EggContext, @HTTPQuery() limit: string) {
 
     let tops = await this.cacheService.get('tops');
 
@@ -25,17 +25,17 @@ export class RankController extends AbstractController {
       const query = { is_block: false };
 
       const options = {
-        limit: limit > 100 ? 100 : 10,
+        limit: parseInt(limit) > 100 ? 100 : parseInt(limit),
         sort: '-score',
       };
 
-      const topsUsrs = await this.userService.query(
+      const topsUsers = await this.userService.query(
         query,
         null,
         options,
       );
 
-      tops = topsUsrs.map(user => {
+      tops = topsUsers.map(user => {
         return filterUser(user, [
           'score',
           'topic_count',
