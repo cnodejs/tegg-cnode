@@ -46,9 +46,9 @@ export class RankController extends AbstractController {
 
   @HTTPMethod({
     method: HTTPMethodEnum.GET,
-    path: '/new_topic',
+    path: '/no_reply_topics',
   })
-  async showNewTopic(@Context() ctx: EggContext) {
+  async showNoReplyTopic(@Context() ctx: EggContext) {
     let no_reply_topics = await this.cacheService.get('no_reply_topics');
 
     if (!no_reply_topics) {
