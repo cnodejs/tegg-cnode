@@ -74,7 +74,15 @@ export class AuthController extends AbstractController {
     const valid = userValidate(data);
 
     if (!valid) {
-      ctx.throw(JSON.stringify(userValidate.errors), 422);
+      let errorMessage = '';
+
+      if (userValidate.errors) {
+        userValidate.errors?.forEach(errorObject => {
+          errorMessage += errorObject.message;
+        });
+      }
+
+      ctx.throw(errorMessage, 422);
     }
 
     const loginname = data.loginname.toLowerCase();
