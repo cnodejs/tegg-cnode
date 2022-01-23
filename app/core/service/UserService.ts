@@ -33,6 +33,10 @@ export class UserService extends AbstractService {
     return this.userRepository.getByGithubId(githubId, projection || defaltProjection);
   }
 
+  async getById(id: string, projection?: any) {
+    return this.userRepository.read(id, projection || defaltProjection);
+  }
+
   async create(model: Partial<User>) {
     const accessToken = uuid.v4();
     return this.userRepository.create({

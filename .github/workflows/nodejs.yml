@@ -63,6 +63,7 @@ jobs:
         # EGG_REDIS_HOST: redis
         # EGG_REDIS_PORT: 6379
         EGG_MONGODB_URL: 'mongodb://root:root@127.0.0.1:27017/admin'
+        EGG_ALLOW_PUBLIC_REGISTRATION: 'allowed'
 
     - name: Code Coverage
       uses: codecov/codecov-action@v1

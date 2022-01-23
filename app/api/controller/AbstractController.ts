@@ -7,7 +7,9 @@ import { JwtService } from 'app/core/service/JwtService';
 import { UserService } from '@/app/core/service/UserService';
 import { CacheService } from '@/app/core/service/CacheService';
 import { TopicService } from '@/app/core/service/TopicService';
+import { ReplyService } from '@/app/core/service/ReplyService';
 import { GithubService } from 'app/core/service/GithubService';
+
 
 export abstract class AbstractController extends MiddlewareController {
   @Inject()
@@ -30,4 +32,7 @@ export abstract class AbstractController extends MiddlewareController {
 
   @Inject()
   protected topicService: TopicService;
+
+  @Inject()
+  protected replyService: ReplyService;
 }

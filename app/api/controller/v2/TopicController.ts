@@ -67,9 +67,36 @@ export class TopicController extends AbstractController {
   })
   async show(@Context() ctx: EggContext, @HTTPParam() topicid: string) {
     const topic = await this.topicService.getById(topicid);
+
+    if (topic.lock) {
+      ctx.throw('topic has been locked.', 403);
+    }
+
+    if (topic.deleted) {
+      ctx.throw('topic has been deleted.', 403);
+    }
+
+    const topic_id = topic._id;
+    const author_id = topic.author_id;
+
+    const author = await this.userService.getById(author_id);
+    const replies = await this.replyService.query({
+      topic_id,
+    });
+
+    const repliesWithAuthor = await Promise.all(replies.map(async reply => {
+      const replyAuthor = await this.userService.getById(reply.author_id);
+      return {
+        ...reply.toObject(),
+        author: replyAuthor,
+      };
+    }));
+
     ctx.body = {
       data: {
         topic: topic.toObject(),
+        author: author.toObject(),
+        replies: repliesWithAuthor,
       },
     };
   }
