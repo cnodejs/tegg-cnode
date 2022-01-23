@@ -1,17 +1,20 @@
 logs/
-npm-debug.log
 node_modules/
 coverage/
-.idea/
 run/
 logs/
 .DS_Store
+.idea
 .vscode
+
 *.swp
 *.lock
 *.js
 .env
 !.autod.conf.js
+
+npm-debug.log
+package-lock.json
 
 app/**/*.js
 test/**/*.js
@@ -26,5 +29,4 @@ app/public
 config/manifest.json
 
 !init.d/mongo/init.js
-
 !test/prepare.js
