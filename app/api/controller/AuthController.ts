@@ -10,7 +10,7 @@ import {
 import { AbstractController } from './AbstractController';
 import { UserSchemaType } from '@/app/common/schema/UserSchema';
 import { userValidate } from '@/app/common/AjvUtil';
-import { bhash, bcompare } from '@/app/common/UserUtil';
+import { bhash, bcompare, filterUser } from '@/app/common/UserUtil';
 
 @HTTPController({
   path: '/api/auth',
@@ -49,9 +49,7 @@ export class AuthController extends AbstractController {
       ctx.throw('password is not matched', 403);
     }
 
-    const _user = user.toObject();
-    delete _user.pass;
-
+    const _user = filterUser(user);
     const token = await this.jwtService.sign(_user);
 
     ctx.body = {
@@ -102,7 +100,7 @@ export class AuthController extends AbstractController {
 
     ctx.body = {
       data: {
-        user,
+        user: filterUser(user),
       },
     };
   }

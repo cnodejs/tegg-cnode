@@ -7,6 +7,7 @@ import {
   HTTPQuery,
 } from '@eggjs/tegg';
 import { AbstractController } from './AbstractController';
+import { filterUser } from '@/app/common/UserUtil';
 
 @HTTPController({
   path: '/oauth',
@@ -71,6 +72,7 @@ export class OAuthController extends AbstractController {
 
     if (!user) {
       user = await this.userService.create({
+        email,
         githubId,
         active: true,
       });
@@ -104,7 +106,7 @@ export class OAuthController extends AbstractController {
     ctx.body = {
       data: {
         type: 'github',
-        user,
+        user: filterUser(user),
         token,
       },
     };

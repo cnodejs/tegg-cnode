@@ -7,6 +7,7 @@ import {
   HTTPQuery,
 } from '@eggjs/tegg';
 import { AbstractController } from '../AbstractController';
+import { filterUser } from '@/app/common/UserUtil';
 
 @HTTPController({
   path: '/api/v2/rank',
@@ -34,6 +35,21 @@ export class RankController extends AbstractController {
         options,
       );
 
+      tops = tops.map(user => {
+        return filterUser(user, [
+          'score',
+          'topic_count',
+          'reply_count',
+          'follower_count',
+          'following_count',
+          'update_at',
+          'create_at',
+          'name',
+          'signature',
+          'url',
+          'weibo',
+        ]);
+      });
       await this.cacheService.setex('tops', tops, 60);
     }
 

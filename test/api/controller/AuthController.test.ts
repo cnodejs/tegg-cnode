@@ -31,7 +31,6 @@ describe('test/app/api/controller/AuthController.test.ts', () => {
           rePass: defaultUser.pass,
         })
         .expect(200);
-
       assert(result.body.data.user.loginname === defaultUser.loginname);
     });
   });
@@ -45,8 +44,7 @@ describe('test/app/api/controller/AuthController.test.ts', () => {
           ...defaultUser,
         })
         .expect(200);
-
-      assert(result.body.data.user.active === false);
+      assert(result.body.data.user.loginname === defaultUser.loginname);
     });
   });
 });

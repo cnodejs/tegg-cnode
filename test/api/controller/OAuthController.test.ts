@@ -29,8 +29,10 @@ describe('test/app/api/controller/OAuthController.test.ts', () => {
 
   describe('[GET /oauth/github]', () => {
     it('should redirect to callback url', async () => {
+      const id = Date.now();
       const code = 'code';
       const callbackUrl = 'http%3A%2F%2F127.0.0.1%3A7001';
+
 
       app.mockHttpclient(
         'https://github.com/login/oauth/access_token',
@@ -45,11 +47,11 @@ describe('test/app/api/controller/OAuthController.test.ts', () => {
 
       app.mockHttpclient('https://api.github.com/user', 'GET', {
         data: {
-          name: 'cnode',
-          email: 'cnode@cnodejs.org',
+          name: `cnodejs_${id}`,
+          email: `cnodejs_${id}@cnodejs.org`,
           avatar_url: 'https://avatars.githubusercontent.com/u/958063?v=4',
-          id: 10001,
-          login: 'cnode',
+          id,
+          login: `cnodejs_${id}`,
         },
         status: 200,
       });

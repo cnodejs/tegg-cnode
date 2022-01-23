@@ -25,3 +25,33 @@ export const bhash = (str: string) => {
 export const bcompare = (str: string, hash: string) => {
   return bcrypt.compareSync(str, hash);
 };
+
+export const filterUser = (user: any, attrs?: string[]) => {
+  if (!user) {
+    return;
+  }
+
+  const { _id: id, loginname, avatar_url } = user;
+
+  const target: {
+    id: string;
+    loginname: string;
+    avatar_url: string;
+  } & Record<string, any> = {
+    id,
+    loginname,
+    avatar_url,
+  };
+
+  if (attrs && Array.isArray(attrs)) {
+    attrs.forEach(attr => {
+      if (!user[attr]) {
+        return;
+      }
+      target[attr] = user[attr];
+    });
+  }
+
+  return target;
+};
+

@@ -9,6 +9,7 @@ import {
 } from '@eggjs/tegg';
 import { AbstractController } from '../AbstractController';
 import { topicValidate } from '@/app/common/AjvUtil';
+import { filterUser } from '@/app/common/UserUtil';
 
 @HTTPController({
   path: '/api/v2/topic',
@@ -79,23 +80,24 @@ export class TopicController extends AbstractController {
     const topic_id = topic._id;
     const author_id = topic.author_id;
 
-    const author = await this.userService.getById(author_id);
+    const author = await this.userService.getById(author_id, []);
+
     const replies = await this.replyService.query({
       topic_id,
     });
 
     const repliesWithAuthor = await Promise.all(replies.map(async reply => {
-      const replyAuthor = await this.userService.getById(reply.author_id);
+      const replyAuthor = await this.userService.getById(reply.author_id, []);
       return {
         ...reply.toObject(),
-        author: replyAuthor,
+        author: filterUser(replyAuthor),
       };
     }));
 
     ctx.body = {
       data: {
         topic: topic.toObject(),
-        author: author.toObject(),
+        author: filterUser(author),
         replies: repliesWithAuthor,
       },
     };

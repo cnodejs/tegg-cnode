@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { Context } from 'egg';
 import { app } from 'egg-mock/bootstrap';
-import { createUser } from '../../../TestUtil';
+import { createUser } from '@/test/TestUtil';
 
 const defaultTopic = {
   title: 'CNodejs.org',
