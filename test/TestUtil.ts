@@ -26,7 +26,7 @@ export const createUser = async (ctx: Context) => {
   const token = await jwtService.sign(_user);
 
   return {
-    user: _user,
+    info: _user,
     token,
   };
 };

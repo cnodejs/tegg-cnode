@@ -13,11 +13,11 @@ describe('test/app/api/controller/v2/RankController.test.ts', () => {
     app.destroyModuleContext(ctx);
   });
 
-  describe('[POST /api/v2/rank/user]', () => {
+  describe('[POST /api/v2/rank/users]', () => {
     it('should get user list', async () => {
       const result = await app
         .httpRequest()
-        .get('/api/v2/rank/user')
+        .get('/api/v2/rank/users')
         .expect(200);
       assert(Array.isArray(result.body.data.tops));
     });

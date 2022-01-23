@@ -15,9 +15,9 @@ import { filterUser } from '@/app/common/UserUtil';
 export class RankController extends AbstractController {
   @HTTPMethod({
     method: HTTPMethodEnum.GET,
-    path: '/user',
+    path: '/users',
   })
-  async showTopUser(@Context() ctx: EggContext, @HTTPQuery() limit: number) {
+  async showTopUsers(@Context() ctx: EggContext, @HTTPQuery() limit: number) {
 
     let tops = await this.cacheService.get('tops');
 

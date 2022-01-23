@@ -4,13 +4,7 @@ import { Topic } from '@/app/model/Topic';
 import { TopicRepository } from '../../repository/TopicRepository';
 import { FilterQuery, QueryOptions } from 'mongoose';
 
-const defaltProjection = [
-  // '-pass',
-  // '-email',
-  // '-githubId',
-  // '-githubAccessToken',
-  // '-accessToken',
-];
+const defaltProjection = [];
 
 @ContextProto({
   accessLevel: AccessLevel.PUBLIC,

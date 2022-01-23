@@ -8,7 +8,6 @@ import { FilterQuery, QueryOptions } from 'mongoose';
 
 const defaltProjection = [
   '-pass',
-  '-email',
   '-githubId',
   '-githubAccessToken',
   '-accessToken',
