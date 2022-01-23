@@ -29,13 +29,13 @@ export class RankController extends AbstractController {
         sort: '-score',
       };
 
-      tops = await this.userService.query(
+      const topsUsrs = await this.userService.query(
         query,
         null,
         options,
       );
 
-      tops = tops.map(user => {
+      tops = topsUsrs.map(user => {
         return filterUser(user, [
           'score',
           'topic_count',
