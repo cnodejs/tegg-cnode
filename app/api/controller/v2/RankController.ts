@@ -25,7 +25,7 @@ export class RankController extends AbstractController {
       const query = { is_block: false };
 
       const options = {
-        limit: parseInt(limit) > 100 ? 100 : parseInt(limit),
+        limit: parseInt(limit) > 100 ? 100 : parseInt(limit) || 10,
         sort: '-score',
       };
 
