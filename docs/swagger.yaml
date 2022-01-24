@@ -1,0 +1,419 @@
+openapi: 3.0.0
+
+info:
+  title: CNodejs.org
+  description: API v2 for cnodejs.org
+  version: 2.0.0
+
+servers:
+  - url: https://api.cnodejs.org
+    description: Beta Version For DEV.
+
+tags:
+  - name: OAuth
+    description: /oauth
+  - name: Auth
+    description: /api/auth
+  - name: User
+    description: /api/v2/user
+  - name: Topic
+    description: /api/v2/topic
+  - name: Rank
+    description: /api/v2/rank
+
+paths:
+
+  /oauth:
+    get:
+      summary: query oauth info
+      tags:
+        - OAuth
+      parameters:
+        - name: callbackUrl
+          in: query
+          description: callback url
+          schema:
+            type: string
+      responses:
+        '200':
+          description: object with user and jwt token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      githubOAuthUrl:
+                        type: string
+                        
+  /oauth/github:
+    post:
+      summary: oauth callback
+      tags:
+        - OAuth
+      parameters:
+        - name: code
+          in: query
+          description: exchange code
+          schema:
+            type: string
+        - name: callbackUrl            
+          in: query
+          description: redirect url
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: object with user and jwt token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                      type:
+                        type: string
+                      user:
+                        $ref: '#/components/schemas/UserModel'
+        '302':
+          description: if redirect url has been added to oauth url
+                        
+  /auth/signin:
+    post:
+      summary: sign in a account
+      tags:
+        - Auth
+      requestBody:
+        description: loginname / email is required.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - pass
+              properties:
+                loginname:
+                  type: string
+                email:
+                  type: string
+                pass:
+                  type: string
+      responses:
+        '200':
+          description: object with user and jwt token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/UserModel'
+                      token:
+                        type: string
+        '422':
+          description: loginname or email is required
+        '403':
+          description: loginname or email is not existed / password is not matched
+          
+  /auth/signup:
+    post:
+      summary: sign up a account
+      tags:
+        - Auth
+      requestBody:
+        description: loginname / email is required.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - pass
+              properties:
+                loginname:
+                  type: string
+                email:
+                  type: string
+                pass:
+                  type: string
+                rePass:
+                  type: string
+      responses:
+        '200':
+          description: object with user and jwt token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/UserModel'
+        '422':
+          description: loginname or email has been used
+          
+  /v2/user/{loginname}:
+    get:
+      summary: query user info
+      tags:
+        - User
+      parameters:
+        - name: loginname
+          in: path
+          description: Login Name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: user detail info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/UserDetailModel'
+
+  /v2/topic:
+    post:
+      summary: create a topic
+      tags:
+        - Topic
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: topic body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicModel'
+      responses:
+        '200':
+          description: create result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      topic:
+                        $ref: '#/components/schemas/TopicModel'
+
+  /v2/topic/{topicId}:
+    get:
+      summary: get a topic
+      tags:
+        - Topic
+      parameters:
+        - name: topicId
+          in: path
+          description: Topic Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: topic detail
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      topic:
+                        $ref: '#/components/schemas/TopicModel'
+                      author:
+                        $ref: '#/components/schemas/AuthorModel'
+                      replies:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            content: 
+                              type: string
+                            author:    
+                              $ref: '#/components/schemas/AuthorModel'
+    put:
+      summary: update a topic
+      tags:
+        - Topic
+      security:
+        - bearerAuth: []    
+      parameters:
+        - name: topicId
+          in: path
+          description: Topic Id
+          required: true
+          schema:
+            type: string        
+      requestBody:
+        description: topic body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopicModel'
+      responses:
+        '200':
+          description: update result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      result:
+                        type: object
+                        properties:
+                          ok: 
+                            type: boolean
+  /v2/rank/users:
+    get:
+      summary: query rank users
+      tags:
+        - Rank
+      parameters:
+        - name: limit
+          in: query
+          description: limit mumber
+          schema:
+            type: number
+      responses:
+        '200':
+          description: rank list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      tops:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/UserDetailModel'
+                          
+  /v2/rank/no_reply_topics:
+    get:
+      summary: query no_reply toppic
+      tags:
+        - Rank
+      responses:
+        '200':
+          description: topic list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      no_reply_topics:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/TopicModel'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+      
+  schemas:
+    AuthorModel:
+      title: User Model
+      type: object
+      properties:
+        id:
+          type: string
+        loginname:
+          type: string
+        avatar_url:
+          type: string
+          
+    UserModel:
+      title: User Model
+      type: object
+      properties:
+        id:
+          type: string
+        loginname:
+          type: string
+        avatar_url:
+          type: string
+
+    UserDetailModel:
+      title: User Detail Model
+      type: object
+      properties:
+        id:
+          type: string
+        loginname:
+          type: string
+        avatar_url:
+          type: string
+        score:
+          type: number
+        topic_count:
+          type: number
+        reply_count:
+          type: number
+        follower_count:
+          type: number
+        following_count:
+          type: number
+        update_at:
+          type: number
+        create_at:
+          type: number
+        name:
+          type: string
+        signature:
+          type: string
+        url:
+          type: string
+        weibo:
+          type: string
+          
+    TopicModel:
+      title: Topic Model
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        tab:
+          type: string
+    
