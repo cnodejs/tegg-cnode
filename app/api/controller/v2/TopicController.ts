@@ -11,7 +11,7 @@ import {
 } from '@eggjs/tegg';
 
 import { AbstractController } from '../AbstractController';
-import { Pagination as PaginationMiddleware } from '../../middleware/pagination';
+import { Pagination as PaginationMiddleware } from '../../middleware/Pagination';
 import { filterUser } from '@/app/common/UserUtil';
 import { topicValidate } from '@/app/common/AjvUtil';
 
