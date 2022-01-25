@@ -11,9 +11,9 @@ import {
 } from '@eggjs/tegg';
 
 import { AbstractController } from '../AbstractController';
-import { topicValidate } from '@/app/common/AjvUtil';
-import { filterUser } from '@/app/common/UserUtil';
 import { Pagination as PaginationMiddleware } from '../../middleware/pagination';
+import { filterUser } from '@/app/common/UserUtil';
+import { topicValidate } from '@/app/common/AjvUtil';
 
 @HTTPController({
   path: '/api/v2/topic',

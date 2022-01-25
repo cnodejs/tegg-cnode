@@ -21,6 +21,8 @@ export class AuthController extends AbstractController {
     path: '/signin',
   })
   async signin(@Context() ctx: EggContext, @HTTPBody() data: any) {
+    const administrators: string[] = this.config?.administrators;
+
     const loginname = data?.loginname?.toLowerCase();
     const email = data.email;
     const pass = data.pass;
@@ -50,6 +52,11 @@ export class AuthController extends AbstractController {
     }
 
     const _user = filterUser(user);
+
+    if (_user) {
+      _user.is_admin = _user?.loginname ? administrators.includes(_user.loginname) : false;
+    }
+
     const token = await this.jwtService.sign(_user);
 
     ctx.body = {

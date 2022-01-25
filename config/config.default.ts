@@ -58,6 +58,7 @@ export default (appInfo: EggAppInfo) => {
   const cnodejs = {
     allowPublicRegistration: Boolean(process.env.EGG_ALLOW_PUBLIC_REGISTRATION) || false,
     jwtAlgorithm: process.env.EGG_JWT_ALGORITHM || 'HS256',
+    administrators: (process.env.EGG_ADMINISTRATORS || '').split(',') || [],
   };
 
   return {

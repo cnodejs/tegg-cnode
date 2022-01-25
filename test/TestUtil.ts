@@ -7,21 +7,31 @@ import { UserService } from '@/app/core/service/UserService';
 const defaultUser = {
   loginname: 'cnodejs',
   email: 'cnodejs@cnodejs.org',
-  pass: bcrypt.hashSync('cnodejs', 10),
+  pass: 'cnodejs',
 };
 
-export const createUser = async (ctx: Context) => {
+export const createUser = async (ctx: Context, options?: Options) => {
   const jwtService = await ctx.getEggObject(JwtService);
   const userService = await ctx.getEggObject(UserService);
 
-  let user = await userService.getByEmail(defaultUser.email, []);
+  const targetUser = options?.user || defaultUser;
+
+  let user = await userService.getByEmail(targetUser.email, []);
 
   if (!user) {
-    user = await userService.create(defaultUser);
+    const pass = bcrypt.hashSync(targetUser.pass, 10);
+    user = await userService.create({
+      ...targetUser,
+      pass,
+    });
   }
 
   const _user = user.toObject();
   delete _user.pass;
+
+  if (options?.isAdmin) {
+    _user.is_admin = true;
+  }
 
   const token = await jwtService.sign(_user);
 
@@ -30,3 +40,12 @@ export const createUser = async (ctx: Context) => {
     token,
   };
 };
+
+interface Options {
+  user?: {
+    loginname: string;
+    email: string;
+    pass: string;
+  };
+  isAdmin? : boolean;
+}
