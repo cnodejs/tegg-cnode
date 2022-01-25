@@ -19,6 +19,11 @@ $ open http://localhost:7001/
 
 Don't tsc compile at development mode, if you had run `tsc` then you need to `npm run clean` before `npm run dev`.
 
+more:
+
+- [Docker.md](docs/Docker.md)
+- [Developement.md](docs/Developement.md)
+
 ### Deploy
 
 ```bash
@@ -44,11 +49,13 @@ $ docker pull ghcr.io/cnodejs/tegg-cnode:master
 - Typescript 4.x+
 
 
-## How to contribute
+## The OpenAPI Specification (OAS)
 
-- [API.md](https://beta.cnodejs.org/api)
-- [Docker.md](docs/Docker.md)
-- [Developement.md](docs/Developement.md)
+> https://github.com/OAI/OpenAPI-Specification
+
+https://beta.cnodejs.org/api
+
+- [Swagger.yaml](docs/swagger.yaml)
 
 
 ## License
