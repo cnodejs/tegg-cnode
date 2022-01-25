@@ -20,6 +20,8 @@ tags:
     description: /api/v2/topic
   - name: Rank
     description: /api/v2/rank
+  - name: Admin
+    description: /api/v2/admin
 
 paths:
   /oauth:
@@ -162,7 +164,11 @@ paths:
                       user:
                         $ref: '#/components/schemas/UserModel'
         '422':
+          description: unprocessable entity
+        '400':
           description: loginname or email has been used
+        '403':
+          description: public registration is not allowed
 
   /api/v2/user/{loginname}:
     get:
@@ -334,10 +340,8 @@ paths:
                     type: object
                     properties:
                       result:
-                        type: object
-                        properties:
-                          ok:
-                            type: boolean
+                        $ref: '#/components/schemas/ResultModel'
+
   /v2/rank/users:
     get:
       summary: query rank users
@@ -385,6 +389,43 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/TopicModel'
+
+  /api/v2/admin/blockUser:
+    put:
+      summary: block a user
+      tags:
+        - Admin
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: post body
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                loginname:
+                  type: string
+      responses:
+        '422':
+          description: loginname is required / user is not existed
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+        '200':
+          description: create result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/UserModel'
+                      result:
+                        $ref: '#/components/schemas/ResultModel'
 
 components:
   securitySchemes:
@@ -486,4 +527,15 @@ components:
         last_reply:
           type: string
         last_reply_at:
+          type: number
+
+    ResultModel:
+      title: Result Model
+      type: object
+      properties:
+        n:
+          type: number
+        nModified:
+          type: number
+        ok:
           type: number

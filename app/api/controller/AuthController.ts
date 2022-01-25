@@ -73,7 +73,7 @@ export class AuthController extends AbstractController {
   })
   async signup(@Context() ctx: EggContext, @HTTPBody() data: UserSchemaType) {
     if (!this.config.allowPublicRegistration) {
-      ctx.throw('public registration is not allowed.', 403);
+      ctx.throw('public registration is not allowed', 403);
     }
 
     const valid = userValidate(data);
@@ -94,7 +94,7 @@ export class AuthController extends AbstractController {
     });
 
     if (users.length > 0) {
-      ctx.throw('loginname or email has been used', 422);
+      ctx.throw('loginname or email has been used', 400);
     }
 
     const password = bhash(pass);

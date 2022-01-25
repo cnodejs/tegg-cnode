@@ -17,16 +17,33 @@ import { IsAdmin as IsAdminMiddleware } from '../../middleware/IsAdmin';
 @Middleware(IsAdminMiddleware)
 export class AdminController extends AbstractController {
   @HTTPMethod({
-    method: HTTPMethodEnum.POST,
+    method: HTTPMethodEnum.PUT,
     path: '/blockUser',
   })
   async blockUser(@Context() ctx: EggContext, @HTTPBody() data: { loginname: string }) {
-    // TODO
+
+    const { loginname } = data;
+
+    if (!loginname) {
+      ctx.throw('loginname is required', 422);
+    }
+
+    const user = await this.userService.getByLoginName(loginname);
+
+    if (!user) {
+      ctx.throw('user is not existed', 400);
+    }
+
+    const result = await this.userService.update(user._id, {
+      is_block: true,
+    });
+
     ctx.body = {
       data: {
         user: {
           loginname: data.loginname,
         },
+        result,
       },
     };
   }

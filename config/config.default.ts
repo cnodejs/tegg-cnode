@@ -19,12 +19,21 @@ export default (appInfo: EggAppInfo) => {
     enable: true,
     secret: process.env.EGG_JWT_SECRET || 'JWT_SECRET',
     match: ctx => {
-      if (
-        ctx.path.startsWith('/api/v2') &&
-        (ctx.method === 'PUT' || ctx.method === 'POST')
-      ) {
+
+      const ProtectedMethods = [
+        'POST',
+        'PUT',
+        'DELETE',
+      ];
+
+      if (!ctx.path.startsWith('/api/v2')) {
+        return false;
+      }
+
+      if (ProtectedMethods.includes(ctx.method)) {
         return true;
       }
+
       return false;
     },
   };
