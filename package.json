@@ -22,7 +22,7 @@
     "test": "npm run lint && npm run test-local",
     "test-local": "egg-bin test -r tsconfig-paths/register --full-trace --reporter dot",
     "lint": "eslint . --ext .ts --fix",
-    "prettier": "prettier --write '**/*.{md,json}'"
+    "prettier": "prettier --write '**/*.{md,json,yaml}'"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

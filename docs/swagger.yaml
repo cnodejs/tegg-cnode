@@ -22,7 +22,6 @@ tags:
     description: /api/v2/rank
 
 paths:
-
   /oauth:
     get:
       summary: query oauth info
@@ -47,7 +46,7 @@ paths:
                     properties:
                       githubOAuthUrl:
                         type: string
-                        
+
   /oauth/github:
     post:
       summary: oauth callback
@@ -59,7 +58,7 @@ paths:
           description: exchange code
           schema:
             type: string
-        - name: callbackUrl            
+        - name: callbackUrl
           in: query
           description: redirect url
           schema:
@@ -84,7 +83,7 @@ paths:
                         $ref: '#/components/schemas/UserModel'
         '302':
           description: if redirect url has been added to oauth url
-                        
+
   /auth/signin:
     post:
       summary: sign in a account
@@ -125,7 +124,7 @@ paths:
           description: loginname or email is required
         '403':
           description: loginname or email is not existed / password is not matched
-          
+
   /auth/signup:
     post:
       summary: sign up a account
@@ -164,7 +163,7 @@ paths:
                         $ref: '#/components/schemas/UserModel'
         '422':
           description: loginname or email has been used
-          
+
   /api/v2/user/{loginname}:
     get:
       summary: query user info
@@ -299,23 +298,23 @@ paths:
                         items:
                           type: object
                           properties:
-                            content: 
+                            content:
                               type: string
-                            author:    
+                            author:
                               $ref: '#/components/schemas/AuthorModel'
     put:
       summary: update a topic
       tags:
         - Topic
       security:
-        - bearerAuth: []    
+        - bearerAuth: []
       parameters:
         - name: topicId
           in: path
           description: Topic Id
           required: true
           schema:
-            type: string        
+            type: string
       requestBody:
         description: topic body
         required: true
@@ -337,7 +336,7 @@ paths:
                       result:
                         type: object
                         properties:
-                          ok: 
+                          ok:
                             type: boolean
   /v2/rank/users:
     get:
@@ -365,7 +364,7 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/UserDetailModel'
-                          
+
   /v2/rank/no_reply_topics:
     get:
       summary: query no_reply topics
@@ -397,7 +396,7 @@ components:
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
-      
+
   schemas:
     AuthorModel:
       title: Author Model
@@ -409,7 +408,7 @@ components:
           type: string
         avatar_url:
           type: string
-          
+
     UserModel:
       title: User Model
       type: object
@@ -464,27 +463,27 @@ components:
           type: string
         tab:
           type: string
-        author_id: 
+        author_id:
           type: string
-        create_at: 
+        create_at:
           type: number
-        update_at: 
+        update_at:
           type: number
-        deleted: 
+        deleted:
           type: boolean
-        top: 
+        top:
           type: boolean
-        good: 
+        good:
           type: boolean
-        lock: 
+        lock:
           type: boolean
-        reply_count: 
+        reply_count:
           type: number
-        visit_count: 
+        visit_count:
           type: number
-        collect_count: 
+        collect_count:
           type: number
-        last_reply: 
+        last_reply:
           type: string
-        last_reply_at: 
-          type: number        
+        last_reply_at:
+          type: number
