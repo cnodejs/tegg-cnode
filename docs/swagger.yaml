@@ -165,7 +165,7 @@ paths:
         '422':
           description: loginname or email has been used
           
-  /v2/user/{loginname}:
+  /api/v2/user/{loginname}:
     get:
       summary: query user info
       tags:
