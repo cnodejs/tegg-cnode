@@ -191,7 +191,55 @@ paths:
                       user:
                         $ref: '#/components/schemas/UserDetailModel'
 
-  /v2/topic:
+  /api/v2/topic:
+    get:
+      summary: query topic list
+      tags:
+        - Topic
+      parameters:
+        - name: limit
+          in: query
+          description: page size
+          schema:
+            type: number
+        - name: page
+          in: query
+          description: page number, default 0
+          schema:
+            type: number
+        - name: tab
+          in: query
+          description: topic tab
+          schema:
+            type: string
+      responses:
+        '200':
+          description: topic list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      pagination:
+                        type: object
+                        properties:
+                          page:
+                            type: number
+                          limit:
+                            type: number
+                      topics:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            topic:
+                              $ref: '#/components/schemas/TopicModel'
+                            author:
+                              $ref: '#/components/schemas/AuthorModel'
+
     post:
       summary: create a topic
       tags:
@@ -219,7 +267,7 @@ paths:
                       topic:
                         $ref: '#/components/schemas/TopicModel'
 
-  /v2/topic/{topicId}:
+  /api/v2/topic/{topicId}:
     get:
       summary: get a topic
       tags:
@@ -320,7 +368,7 @@ paths:
                           
   /v2/rank/no_reply_topics:
     get:
-      summary: query no_reply toppic
+      summary: query no_reply topics
       tags:
         - Rank
       responses:
@@ -352,7 +400,7 @@ components:
       
   schemas:
     AuthorModel:
-      title: User Model
+      title: Author Model
       type: object
       properties:
         id:
@@ -405,7 +453,7 @@ components:
           type: string
         weibo:
           type: string
-          
+
     TopicModel:
       title: Topic Model
       type: object
@@ -416,4 +464,27 @@ components:
           type: string
         tab:
           type: string
-    
+        author_id: 
+          type: string
+        create_at: 
+          type: number
+        update_at: 
+          type: number
+        deleted: 
+          type: boolean
+        top: 
+          type: boolean
+        good: 
+          type: boolean
+        lock: 
+          type: boolean
+        reply_count: 
+          type: number
+        visit_count: 
+          type: number
+        collect_count: 
+          type: number
+        last_reply: 
+          type: string
+        last_reply_at: 
+          type: number        

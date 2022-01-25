@@ -23,6 +23,19 @@ describe('test/app/api/controller/v2/TopicController.test.ts', () => {
     app.destroyModuleContext(ctx);
   });
 
+  describe('[GET /api/v2/topic]', () => {
+    it('should get topic list', async () => {
+      const result = await app
+        .httpRequest()
+        .get('/api/v2/topic?limit=20')
+        .expect(200);
+
+      assert(Array.isArray(result.body.data.topics));
+      assert(result.body.data.pagination.page === 0);
+      assert(result.body.data.pagination.limit === 20);
+    });
+  });
+
   describe('[POST /api/v2/topic]', () => {
     it('should get topic info', async () => {
       const result = await app

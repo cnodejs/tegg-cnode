@@ -1,20 +1,72 @@
 import {
   Context,
   EggContext,
+  Middleware,
   HTTPBody,
   HTTPController,
   HTTPMethod,
   HTTPMethodEnum,
   HTTPParam,
+  HTTPQuery,
 } from '@eggjs/tegg';
+
 import { AbstractController } from '../AbstractController';
 import { topicValidate } from '@/app/common/AjvUtil';
 import { filterUser } from '@/app/common/UserUtil';
+import { Pagination as PaginationMiddleware } from '../../middleware/pagination';
 
 @HTTPController({
   path: '/api/v2/topic',
 })
 export class TopicController extends AbstractController {
+  @HTTPMethod({
+    method: HTTPMethodEnum.GET,
+    path: '/',
+  })
+  @Middleware(PaginationMiddleware)
+  async index(@Context() ctx: EggContext, @HTTPQuery() tab: string) {
+    const query: any = {
+      tab,
+    };
+
+    if (!tab || tab === 'all') {
+      query.tab = { $nin: [ 'job', 'dev' ] };
+    }
+
+    if (tab === 'good') {
+      query.good = true;
+    }
+
+    const { page, limit } = ctx.pagination;
+
+    const options = {
+      limit,
+      skip: page * limit,
+      sort: '-top -last_reply_at',
+    };
+
+    const topics = await this.topicService.query(
+      query,
+      null,
+      options,
+    );
+
+    const topicsWithAuthor = await Promise.all(topics.map(async topic => {
+      const topicAuthor = await this.userService.getById(topic.author_id, []);
+      return {
+        topic: topic.toObject(),
+        author: filterUser(topicAuthor),
+      };
+    }));
+
+    ctx.body = {
+      data: {
+        topics: topicsWithAuthor,
+        pagination: ctx.pagination,
+      },
+    };
+  }
+
   @HTTPMethod({
     method: HTTPMethodEnum.POST,
     path: '/',

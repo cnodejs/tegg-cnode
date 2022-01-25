@@ -46,7 +46,7 @@ $ docker pull ghcr.io/cnodejs/tegg-cnode:master
 
 ## How to contribute
 
-- [API.md](docs/API.md)
+- [API.md](https://beta.cnodejs.org/api)
 - [Docker.md](docs/Docker.md)
 - [Developement.md](docs/Developement.md)
 

@@ -1,5 +1,6 @@
 import * as crypto from 'crypto';
 import bcrypt from 'bcryptjs';
+import pick from 'lodash.pick';
 
 export const md5 = (signature: string) => {
   return crypto.createHash('md5').update(signature).digest('hex');
@@ -33,7 +34,7 @@ export const filterUser = (user: any, attrs?: string[]) => {
 
   const { _id: id, loginname, avatar_url } = user;
 
-  const target: {
+  let target: {
     id: string;
     loginname: string;
     avatar_url: string;
@@ -43,13 +44,11 @@ export const filterUser = (user: any, attrs?: string[]) => {
     avatar_url,
   };
 
-  if (attrs && Array.isArray(attrs)) {
-    attrs.forEach(attr => {
-      if (!user[attr]) {
-        return;
-      }
-      target[attr] = user[attr];
-    });
+  if (Array.isArray(attrs)) {
+    target = {
+      ...target,
+      ...pick(user, attrs),
+    };
   }
 
   return target;
