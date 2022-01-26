@@ -3,6 +3,7 @@ import { Context } from 'egg';
 
 import { JwtService } from '@/app/core/service/JwtService';
 import { UserService } from '@/app/core/service/UserService';
+import { pickUserField } from '@/app/common/UserUtil';
 
 const defaultUser = {
   loginname: 'cnodejs',
@@ -26,8 +27,11 @@ export const createUser = async (ctx: Context, options?: Options) => {
     });
   }
 
-  const _user = user.toObject();
-  delete _user.pass;
+  const _user = pickUserField(user);
+
+  if (!_user) {
+    throw new Error('create user failed');
+  }
 
   if (options?.isAdmin) {
     _user.is_admin = true;

@@ -7,7 +7,7 @@ import {
   HTTPQuery,
 } from '@eggjs/tegg';
 import { AbstractController } from './AbstractController';
-import { filterUser } from '@/app/common/UserUtil';
+import { pickUserField } from '@/app/common/UserUtil';
 
 @HTTPController({
   path: '/oauth',
@@ -106,7 +106,7 @@ export class OAuthController extends AbstractController {
     ctx.body = {
       data: {
         type: 'github',
-        user: filterUser(user),
+        user: pickUserField(user),
         token,
       },
     };

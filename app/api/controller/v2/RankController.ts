@@ -7,7 +7,7 @@ import {
   HTTPQuery,
 } from '@eggjs/tegg';
 import { AbstractController } from '../AbstractController';
-import { filterUser } from '@/app/common/UserUtil';
+import { pickUserField } from '@/app/common/UserUtil';
 
 @HTTPController({
   path: '/api/v2/rank',
@@ -22,7 +22,9 @@ export class RankController extends AbstractController {
     let tops = await this.cacheService.get('tops');
 
     if (!tops) {
-      const query = { is_block: false };
+      const query = {
+        is_block: false,
+      };
 
       const options = {
         limit: parseInt(limit) > 100 ? 100 : parseInt(limit) || 10,
@@ -36,7 +38,7 @@ export class RankController extends AbstractController {
       );
 
       tops = topsUsers.map(user => {
-        return filterUser(user, [
+        return pickUserField(user, [
           'score',
           'topic_count',
           'reply_count',
@@ -69,6 +71,7 @@ export class RankController extends AbstractController {
 
     if (!no_reply_topics) {
       const query = {
+        deleted: false,
         reply_count: 0,
         tab: {
           $nin: [

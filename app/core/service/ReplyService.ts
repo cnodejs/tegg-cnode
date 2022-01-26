@@ -14,8 +14,16 @@ export class ReplyService extends AbstractService {
   @Inject()
   private readonly replyRepository: ReplyRepository;
 
+  async getById(id: string, projection?: any) {
+    return this.replyRepository.read(id, projection || defaltProjection);
+  }
+
   async create(model: Partial<Reply>) {
     return this.replyRepository.create(model);
+  }
+
+  async update(id: string, model: Partial<Reply>, filter?: any) {
+    return this.replyRepository.update(id, model, filter);
   }
 
   async query(query: FilterQuery<Reply>, projection?: any, options?: QueryOptions) {

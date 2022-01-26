@@ -1,7 +1,7 @@
 import { Application } from 'egg';
 import { Schema } from 'mongoose';
 import type { Model } from 'mongoose';
-import { md5 } from '../common/UserUtil';
+import { md5 } from '@/app/common/CryptUtil';
 
 export interface User {
   name: string;

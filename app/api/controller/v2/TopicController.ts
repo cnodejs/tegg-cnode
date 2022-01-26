@@ -10,10 +10,11 @@ import {
   HTTPQuery,
 } from '@eggjs/tegg';
 
+import { ObjectId } from 'mongoose';
 import { AbstractController } from '../AbstractController';
 import { Pagination as PaginationMiddleware } from '../../middleware/Pagination';
-import { filterUser } from '@/app/common/UserUtil';
-import { topicValidate } from '@/app/common/AjvUtil';
+import { pickUserField } from '@/app/common/UserUtil';
+import { replyValidate, topicValidate } from '@/app/common/AjvUtil';
 
 @HTTPController({
   path: '/api/v2/topic',
@@ -26,6 +27,7 @@ export class TopicController extends AbstractController {
   @Middleware(PaginationMiddleware)
   async index(@Context() ctx: EggContext, @HTTPQuery() tab: string) {
     const query: any = {
+      deleted: false,
       tab,
     };
 
@@ -55,7 +57,7 @@ export class TopicController extends AbstractController {
       const topicAuthor = await this.userService.getById(topic.author_id, []);
       return {
         topic: topic.toObject(),
-        author: filterUser(topicAuthor),
+        author: pickUserField(topicAuthor),
       };
     }));
 
@@ -115,18 +117,43 @@ export class TopicController extends AbstractController {
   }
 
   @HTTPMethod({
+    method: HTTPMethodEnum.DELETE,
+    path: '/:topicid',
+  })
+  async delete(@Context() ctx: EggContext, @HTTPParam() topicid: string) {
+    const { id, is_admin } = ctx.state.user;
+
+    if (!is_admin) {
+      const topic = await this.topicService.getById(topicid);
+      if (topic?.author_id.toString() !== id) {
+        ctx.throw('no permission', 403);
+      }
+    }
+
+    const result = await this.topicService.update(topicid, {
+      deleted: true,
+    });
+
+    ctx.body = {
+      data: {
+        result,
+      },
+    };
+  }
+
+  @HTTPMethod({
     method: HTTPMethodEnum.GET,
     path: '/:topicid',
   })
-  async show(@Context() ctx: EggContext, @HTTPParam() topicid: string) {
+  async read(@Context() ctx: EggContext, @HTTPParam() topicid: string) {
     const topic = await this.topicService.getById(topicid);
 
     if (topic.lock) {
-      ctx.throw('topic has been locked.', 403);
+      ctx.throw('topic has been locked', 403);
     }
 
     if (topic.deleted) {
-      ctx.throw('topic has been deleted.', 403);
+      ctx.throw('topic has been deleted', 403);
     }
 
     const topic_id = topic._id;
@@ -142,15 +169,41 @@ export class TopicController extends AbstractController {
       const replyAuthor = await this.userService.getById(reply.author_id, []);
       return {
         ...reply.toObject(),
-        author: filterUser(replyAuthor),
+        author: pickUserField(replyAuthor),
       };
     }));
 
     ctx.body = {
       data: {
         topic: topic.toObject(),
-        author: filterUser(author),
+        author: pickUserField(author),
         replies: repliesWithAuthor,
+      },
+    };
+  }
+
+  @HTTPMethod({
+    method: HTTPMethodEnum.POST,
+    path: '/:topicid/reply',
+  })
+  async createReply(@Context() ctx: EggContext, @HTTPParam() topicid: string, @HTTPBody() data: any) {
+    const { id } = ctx.state.user;
+
+    const valid = replyValidate(data);
+
+    if (!valid) {
+      ctx.throw(JSON.stringify(replyValidate.errors), 422);
+    }
+
+    const reply = await this.replyService.create({
+      ...data,
+      author_id: id as unknown as ObjectId,
+      topic_id: topicid as unknown as ObjectId,
+    });
+
+    ctx.body = {
+      data: {
+        reply: reply.toObject(),
       },
     };
   }

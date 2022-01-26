@@ -20,13 +20,13 @@ tags:
     description: /api/v2/topic
   - name: Rank
     description: /api/v2/rank
-  - name: Admin
-    description: /api/v2/admin
+  - name: Reply
+    description: /api/v2/reply
 
 paths:
   /oauth:
     get:
-      summary: query oauth info
+      summary: get oauth info
       tags:
         - OAuth
       parameters:
@@ -37,7 +37,7 @@ paths:
             type: string
       responses:
         '200':
-          description: object with user and jwt token
+          description: oauth info
           content:
             application/json:
               schema:
@@ -50,8 +50,8 @@ paths:
                         type: string
 
   /oauth/github:
-    post:
-      summary: oauth callback
+    get:
+      summary: oauth and redirect
       tags:
         - OAuth
       parameters:
@@ -85,6 +85,8 @@ paths:
                         $ref: '#/components/schemas/UserModel'
         '302':
           description: if redirect url has been added to oauth url
+        '400':
+          description: invalid code / token
 
   /auth/signin:
     post:
@@ -122,10 +124,12 @@ paths:
                         $ref: '#/components/schemas/UserModel'
                       token:
                         type: string
+        '400':
+          description: loginname or email is not existed
         '422':
           description: loginname or email is required
         '403':
-          description: loginname or email is not existed / password is not matched
+          description: password is not matched
 
   /auth/signup:
     post:
@@ -183,6 +187,8 @@ paths:
           schema:
             type: string
       responses:
+        '400':
+          description: user is not existed
         '200':
           description: user detail info
           content:
@@ -196,9 +202,43 @@ paths:
                       user:
                         $ref: '#/components/schemas/UserDetailModel'
 
+  /api/v2/user/{loginname}/block:
+    put:
+      summary: block a user
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: loginname
+          in: path
+          description: Login Name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: create result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/ResultModel'      
+        '400':
+          description: user is not existed
+        '422':
+          description: loginname is required
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+
   /api/v2/topic:
     get:
-      summary: query topic list
+      summary: query topics
       tags:
         - Topic
       parameters:
@@ -244,7 +284,6 @@ paths:
                               $ref: '#/components/schemas/TopicModel'
                             author:
                               $ref: '#/components/schemas/AuthorModel'
-
     post:
       summary: create a topic
       tags:
@@ -271,6 +310,10 @@ paths:
                     properties:
                       topic:
                         $ref: '#/components/schemas/TopicModel'
+        '422':
+          description: unprocessable entity
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
 
   /api/v2/topic/{topicId}:
     get:
@@ -308,6 +351,8 @@ paths:
                               type: string
                             author:
                               $ref: '#/components/schemas/AuthorModel'
+        '403':
+          description: topic has been locked / deleted
     put:
       summary: update a topic
       tags:
@@ -341,10 +386,176 @@ paths:
                     properties:
                       result:
                         $ref: '#/components/schemas/ResultModel'
+        '422':
+          description: unprocessable entity
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+    delete:
+      summary: delete a topic
+      tags:
+        - Topic
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: topicId
+          in: path
+          description: Topic Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: delete result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/ResultModel'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /api/v2/topic/{topicId}/reply:
+    post:
+      summary: create a reply
+      tags:
+        - Topic
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: topicId
+          in: path
+          description: Topic Id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: reply body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplyModel'
+      responses:
+        '200':
+          description: create result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      topic:
+                        $ref: '#/components/schemas/TopicModel'
+        '422':
+          description: unprocessable entity
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+          
+  /api/v2/reply/{replyId}:
+    put:
+      summary: update a reply
+      tags:
+        - Reply
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: replyId
+          in: path
+          description: Reply Id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: reply body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReplyModel'
+      responses:
+        '200':
+          description: delete result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/ResultModel'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+    delete:
+      summary: delete a reply
+      tags:
+        - Reply
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: replyId
+          in: path
+          description: Reply Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: delete result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/ResultModel'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
+          
+  /api/v2/reply/{replyId}/ups:
+    put:
+      summary: update a reply - ups
+      tags:
+        - Reply
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: replyId
+          in: path
+          description: Reply Id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: delete result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      result:
+                        $ref: '#/components/schemas/ResultModel'
+        '403':
+          $ref: '#/components/responses/UnauthorizedError'
 
   /v2/rank/users:
     get:
-      summary: query rank users
+      summary: query users
       tags:
         - Rank
       parameters:
@@ -390,43 +601,6 @@ paths:
                         items:
                           $ref: '#/components/schemas/TopicModel'
 
-  /api/v2/admin/blockUser:
-    put:
-      summary: block a user
-      tags:
-        - Admin
-      security:
-        - bearerAuth: []
-      requestBody:
-        description: post body
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                loginname:
-                  type: string
-      responses:
-        '422':
-          description: loginname is required / user is not existed
-        '403':
-          $ref: '#/components/responses/UnauthorizedError'
-        '200':
-          description: create result
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: object
-                    properties:
-                      user:
-                        $ref: '#/components/schemas/UserModel'
-                      result:
-                        $ref: '#/components/schemas/ResultModel'
-
 components:
   securitySchemes:
     bearerAuth:
@@ -436,7 +610,7 @@ components:
 
   responses:
     UnauthorizedError:
-      description: Access token is missing or invalid
+      description: access token is missing or invalid
 
   schemas:
     AuthorModel:
@@ -528,6 +702,27 @@ components:
           type: string
         last_reply_at:
           type: number
+          
+    ReplyModel:
+      title: Reply Model
+      type: object
+      properties:
+        content:
+          type: string
+        content_is_html:
+          type: boolean
+        create_at:
+          type: number
+        update_at:
+          type: number
+        deleted:
+          type: boolean
+        topic_id:
+          type: string
+        author_id:
+          type: string
+        reply_id:
+          type: string
 
     ResultModel:
       title: Result Model

@@ -10,7 +10,8 @@ import {
 import { AbstractController } from './AbstractController';
 import { UserSchemaType } from '@/app/common/schema/UserSchema';
 import { userValidate } from '@/app/common/AjvUtil';
-import { bhash, bcompare, filterUser } from '@/app/common/UserUtil';
+import { pickUserField } from '@/app/common/UserUtil';
+import { bhash, bcompare } from '@/app/common/CryptUtil';
 
 @HTTPController({
   path: '/api/auth',
@@ -41,7 +42,7 @@ export class AuthController extends AbstractController {
     const user = await getUser();
 
     if (!user) {
-      ctx.throw('loginname or email is not existed', 403);
+      ctx.throw('loginname or email is not existed', 400);
     }
 
     const _pass = user.pass;
@@ -51,7 +52,7 @@ export class AuthController extends AbstractController {
       ctx.throw('password is not matched', 403);
     }
 
-    const _user = filterUser(user);
+    const _user = pickUserField(user);
 
     if (_user) {
       _user.is_admin = _user?.loginname ? administrators.includes(_user.loginname) : false;
@@ -107,7 +108,7 @@ export class AuthController extends AbstractController {
 
     ctx.body = {
       data: {
-        user: filterUser(user),
+        user: pickUserField(user),
       },
     };
   }

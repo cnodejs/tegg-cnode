@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { userValidate } from '../../app/common/AjvUtil';
+import { userValidate } from '@/app/common/AjvUtil';
 
 describe('test/app/common/AjvUtil.test.ts', () => {
   describe('userValidate', () => {
